@@ -52,7 +52,7 @@ public final class YenKShortestPaths<V, E>
      */
     private final Graph<V, E> graph;
     /**
-     * Hint on the number of paths that should be returned in a call to {@link #getPaths(V, V)}.
+     * Hint on the number of paths that should be returned in a call to {@link #getPaths(Object, Object)}.
      */
     private final int hintK;
     /**
@@ -65,7 +65,7 @@ public final class YenKShortestPaths<V, E>
      * algorithm defaults to {@link DijkstraShortestPath}.
      * 
      * @param graph the underlying graph on which the paths are searched
-     * @param hintK the hint on how many paths shall be returned by {@link #getPaths(V, V)}.
+     * @param hintK the hint on how many paths shall be returned by {@link #getPaths(Object, Object)}.
      */
     public YenKShortestPaths(Graph<V, E> graph, int hintK)
     {
@@ -77,7 +77,7 @@ public final class YenKShortestPaths<V, E>
      * shortest path algorithm.
      * 
      * @param graph the underlying graph on which the paths are searched.
-     * @param hintK the hint on how many paths shall be returned by {@link #getPaths(V, V)}.
+     * @param hintK the hint on how many paths shall be returned by {@link #getPaths(Object, Object)}.
      * @param spFactory the factory function to create new instances of the shortest path algorithm.
      */
     public YenKShortestPaths(
