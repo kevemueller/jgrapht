@@ -31,7 +31,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * Parameterized JUnit test of {@link AbstractMultiShortestPathsTest} for Graphs of <String,DefaultEdge>.
+ * Parameterized JUnit test of {@link AbstractMultiShortestPathsTest} for Graphs of
+ * <String,DefaultEdge>.
  * 
  * @author Keve Müller
  * 
@@ -39,21 +40,45 @@ import org.junit.runners.Parameterized.Parameters;
  * 
  */
 @RunWith(Parameterized.class)
-public final class MultiShortestPathsStringDETest extends AbstractMultiShortestPathsTest<String, DefaultEdge> {
+public final class MultiShortestPathsStringDETest
+    extends AbstractMultiShortestPathsTest<String, DefaultEdge>
+{
 
-	@Parameters(name = "{0}")
-	public static Collection<Object[]> data() {
-		List<Object[]> graphs = Collections
-				.singletonList(new Object[] { "NotBiconnectedGraph", new NotBiconnectedGraph(), GRAPH_WITH_LOOP, 5, "0",
-						"5", Arrays.asList("0,3,5", "0,3,1,4,5"), Arrays.asList(2, 4) });
+    /**
+     * Return the parameters to instantiate this test.
+     * 
+     * @return the collection of parameters.
+     */
+    @Parameters(name = "{0}")
+    public static Collection<Object[]> data()
+    {
+        List<Object[]> graphs = Collections.singletonList(
+            new Object[] { "NotBiconnectedGraph", new NotBiconnectedGraph(), GRAPH_WITH_LOOP, 5,
+                "0", "5", Arrays.asList("0,3,5", "0,3,1,4,5"), Arrays.asList(2, 4) });
 
-		return blendGraphsAlgs(graphs);
-	}
+        return blendGraphsAlgs(graphs);
+    }
 
-	public MultiShortestPathsStringDETest(String name, AlgorithmInfo<String, DefaultEdge> algInfo,
-			Graph<String, DefaultEdge> graph, EnumSet<GraphProperties> graphProperties, int k, String source,
-			String sink, List<String> expectedKShortestPaths, List<Number> expectedKShortestWeights) {
-		super(name, algInfo, String::valueOf, graph, graphProperties, k, source, sink, expectedKShortestPaths,
-				expectedKShortestWeights);
-	}
+    /**
+     * Create an instance of this test.
+     * 
+     * @param name the friendly name
+     * @param algInfo the algorithm information (name, factory, incompatibilities)
+     * @param graph the graph
+     * @param graphProperties the properties of the graph
+     * @param k the number of shortest paths to retrieve
+     * @param source the source/from/start vertex
+     * @param sink the sink/to/end vertex
+     * @param expectedKShortestPaths the expected/reference list of k shortest paths
+     * @param expectedKShortestWeights the expected/reference list of k shortest path's weights
+     */
+    public MultiShortestPathsStringDETest(
+        String name, AlgorithmInfo<String, DefaultEdge> algInfo, Graph<String, DefaultEdge> graph,
+        EnumSet<GraphProperties> graphProperties, int k, String source, String sink,
+        List<String> expectedKShortestPaths, List<Number> expectedKShortestWeights)
+    {
+        super(
+            name, algInfo, String::valueOf, graph, graphProperties, k, source, sink,
+            expectedKShortestPaths, expectedKShortestWeights);
+    }
 }
