@@ -77,13 +77,47 @@ public final class MultiShortestPathsStringDWETest
                         new Object[] { "Picture1Graph", new Picture1Graph(),
                             GRAPH_WITH_NEGATIVE_WEIGHT, 10, "vS", "v5",
                             Arrays.asList("vS,v1,v5", "vS,v2,v5"), Arrays.asList(6.0, 8.0) },
-                        new Object[] { "Eppstein", new KShortestPathsEppsteinGraph(), GRAPH_SIMPLE,
-                            20, "0", "11",
+                        new Object[] { "Eppstein", KShortestPathsGraphs.EPPSTEIN, GRAPH_SIMPLE, 20,
+                            "0", "11",
                             Arrays.asList(
                                 "0,4,5,6,10,11", "0,1,2,3,7,11", "0,1,2,6,10,11", "0,4,5,9,10,11",
                                 "0,1,5,6,10,11", "0,4,5,6,7,11", "0,4,8,9,10,11", "0,1,2,6,7,11",
                                 "0,1,5,9,10,11", "0,1,5,6,7,11"),
-                            Arrays.asList(55, 58, 59, 61, 62, 64, 65, 68, 68, 71) });
+                            Arrays.asList(55, 58, 59, 61, 62, 64, 65, 68, 68, 71) },
+                        new Object[] { "Graehl", KShortestPathsGraphs.GRAEHL, GRAPH_WITH_LOOP, 7,
+                            "0", "1",
+                            Arrays.asList(
+                                "0,5,1", "0,0,5,1", "0,0,0,5,1", "0,0,0,0,5,1", "0,0,0,0,0,5,1",
+                                "0,0,0,0,0,0,5,1", "0,0,0,0,0,0,0,5,1"),
+                            Arrays.asList(.6, .65, .7, .75, .8, .85, .9) },
+                        new Object[] { "NoLoopME", KShortestPathsGraphs.NOLOOPME,
+                            GRAPH_WITH_MULTIEDGE, 20, "0", "2",
+                            Arrays.asList("(0:1/1.0),2", "(0:1/2.0),2", "(0:1/3.0),2"),
+                            Arrays.asList(2, 3, 4) },
+                        new Object[] { "LoopME", KShortestPathsGraphs.LOOPME,
+                            GRAPH_WITH_LOOP_AND_MULTIEDGE, 11, "0", "1",
+                            Arrays.asList(
+                                "0,1", "(0:0/2.0),1", "(0:0/3.0),1", "(0:0/2.0),(0:0/2.0),1",
+                                "(0:0/3.0),(0:0/2.0),1", "(0:0/2.0),(0:0/3.0),1",
+                                "(0:0/2.0),(0:0/2.0),(0:0/2.0),1", "(0:0/3.0),(0:0/3.0),1",
+                                "(0:0/3.0),(0:0/2.0),(0:0/2.0),1",
+                                "(0:0/2.0),(0:0/2.0),(0:0/3.0),1",
+                                "(0:0/2.0),(0:0/3.0),(0:0/2.0),1"),
+                            Arrays.asList(1, 3, 4, 5, 6, 6, 7, 7, 8, 8, 8) },
+                        new Object[] { "LoopME1000", KShortestPathsGraphs.LOOPME1000,
+                            GRAPH_WITH_MULTIEDGE, 16, "0", "1",
+                            Arrays.asList(
+                                "0,1", "(0:0/1.0),1", "(0:0/2.0),1", "(0:0/1.0),(0:0/1.0),1",
+                                "(0:0/3.0),1", "(0:0/2.0),(0:0/1.0),1",
+                                "(0:0/1.0),(0:0/1.0),(0:0/1.0),1", "(0:0/1.0),(0:0/2.0),1",
+                                "(0:0/3.0),(0:0/1.0),1", "(0:0/1.0),(0:0/2.0),(0:0/1.0),1",
+                                "(0:0/1.0),(0:0/1.0),(0:0/1.0),(0:0/1.0),1",
+                                "(0:0/2.0),(0:0/1.0),(0:0/1.0),1", "(0:0/1.0),(0:0/3.0),1",
+                                "(0:0/2.0),(0:0/2.0),1", "(0:0/4.0),1",
+                                "(0:0/1.0),(0:0/1.0),(0:0/2.0),1"),
+                            Arrays.asList(
+                                1000, 1001, 1002, 1002, 1003, 1003, 1003, 1003, 1004, 1004, 1004,
+                                1004, 1004, 1004, 1004, 1004) });
         return blendGraphsAlgs(graphs);
     }
 

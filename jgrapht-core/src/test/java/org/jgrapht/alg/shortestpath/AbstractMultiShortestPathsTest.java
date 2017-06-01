@@ -56,6 +56,7 @@ import org.junit.Test;
  */
 public abstract class AbstractMultiShortestPathsTest<V, E>
 {
+    private static final double EPSILON = 0.00000005;
     private final AlgorithmInfo<V, E> algInfo;
     private final Graph<V, E> graph;
     private final int k;
@@ -157,15 +158,22 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
     public void testBasics()
     {
         assumeTrue(Collections.disjoint(algInfo.algIncompatibility, graphProperties));
-        double lastWeight = Double.MIN_VALUE;
+        System.out.println("Expecting: ");
+        System.out.println(expectedPaths);
+
         List<GraphPath<V, E>> paths = getPaths();
+
+        System.out.println("Returned: ");
+        System.out.println(paths);
+
+        double lastWeight = Double.MIN_VALUE;
         for (GraphPath<V, E> p : paths) {
             assertEquals(source, p.getStartVertex());
             assertEquals(sink, p.getEndVertex());
             double weight = p.getWeight();
             double edgesWeight =
                 p.getEdgeList().stream().map(graph::getEdgeWeight).reduce(0.0, Double::sum);
-            assertEquals(weight, edgesWeight, 0.0);
+            assertEquals(weight, edgesWeight, EPSILON);
             assertTrue(weight >= lastWeight);
             lastWeight = weight;
         }
@@ -178,11 +186,11 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
     public void testPaths()
     {
         assumeTrue(Collections.disjoint(algInfo.algIncompatibility, graphProperties));
-        // System.out.println("Expecting: ");
-        // System.out.println(expectedPaths);
+        System.out.println("Expecting: ");
+        System.out.println(expectedPaths);
         List<GraphPath<V, E>> paths = getPaths();
-        // System.out.println("Returned: ");
-        // System.out.println(paths);
+        System.out.println("Returned: ");
+        System.out.println(paths);
         assertKPathsEquals(expectedPaths, paths);
     }
 
@@ -202,12 +210,12 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
         ArrayList<AlgorithmInfo<V, E>> algs =
             new ArrayList<AbstractMultiShortestPathsTest.AlgorithmInfo<V, E>>();
         algs.add(new AlgorithmInfo<V, E>("KShortestPaths", GRAPH_NONE, KShortestPaths<V, E>::new));
-        algs.add(new AlgorithmInfo<V, E>(
-            "YenKShortestPaths+Dijkstra",
-            EnumSet.of(GraphProperties.LOOP, GraphProperties.NEGATIVE_WEIGHT),
+        algs.add(new AlgorithmInfo<V, E>("YenKShortestPaths+Dijkstra", EnumSet.of(
+            GraphProperties.LOOP, GraphProperties.NEGATIVE_WEIGHT, GraphProperties.MULTIEDGE),
             YenKShortestPaths<V, E>::new));
         algs.add(new AlgorithmInfo<V, E>(
-            "YenKShortestPaths+BellmanFord", EnumSet.of(GraphProperties.LOOP),
+            "YenKShortestPaths+BellmanFord",
+            EnumSet.of(GraphProperties.LOOP, GraphProperties.MULTIEDGE),
             (g, k) -> new YenKShortestPaths<V, E>(g, k, BellmanFordShortestPath<V, E>::new)));
         algs.add(
             new AlgorithmInfo<V, E>("Eppstein", GRAPH_NONE, EppsteinKShortestPaths<V, E>::new));
@@ -260,7 +268,7 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
         for (int i = 0; i < paths.size(); i++) {
             assertEquals(
                 "path weight mismatch @" + i, expectedPaths.get(i).getWeight(),
-                paths.get(i).getWeight(), 0.0);
+                paths.get(i).getWeight(), 0.000005);
         }
 
         {
