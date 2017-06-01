@@ -95,6 +95,7 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
 
         /**
          * Create an instance of this class.
+         * 
          * @param name The algorithm's name.
          * @param algIncompatibility A set of GraphProperties this algorithm is incompatible with.
          * @param algFactory A factory function that creates new instances of the algorithm.
@@ -198,18 +199,18 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
      */
     protected static <V, E> Collection<Object[]> blendGraphsAlgs(List<Object[]> graphs)
     {
-        ArrayList<AbstractMultiShortestPathsTest.AlgorithmInfo<V, E>> algs =
+        ArrayList<AlgorithmInfo<V, E>> algs =
             new ArrayList<AbstractMultiShortestPathsTest.AlgorithmInfo<V, E>>();
-        algs.add(
-            new AbstractMultiShortestPathsTest.AlgorithmInfo<V, E>(
-                "KShortestPaths", GRAPH_NONE, KShortestPaths<V, E>::new));
-        algs.add(new AbstractMultiShortestPathsTest.AlgorithmInfo<V, E>(
+        algs.add(new AlgorithmInfo<V, E>("KShortestPaths", GRAPH_NONE, KShortestPaths<V, E>::new));
+        algs.add(new AlgorithmInfo<V, E>(
             "YenKShortestPaths+Dijkstra",
             EnumSet.of(GraphProperties.LOOP, GraphProperties.NEGATIVE_WEIGHT),
             YenKShortestPaths<V, E>::new));
-        algs.add(new AbstractMultiShortestPathsTest.AlgorithmInfo<V, E>(
+        algs.add(new AlgorithmInfo<V, E>(
             "YenKShortestPaths+BellmanFord", EnumSet.of(GraphProperties.LOOP),
             (g, k) -> new YenKShortestPaths<V, E>(g, k, BellmanFordShortestPath<V, E>::new)));
+        algs.add(
+            new AlgorithmInfo<V, E>("Eppstein", GRAPH_NONE, EppsteinKShortestPaths<V, E>::new));
 
         ArrayList<Object[]> params = new ArrayList<Object[]>();
         for (Object[] graph : graphs) {
