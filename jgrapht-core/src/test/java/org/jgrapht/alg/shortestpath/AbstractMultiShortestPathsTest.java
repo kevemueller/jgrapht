@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
+import org.jgrapht.GraphType;
 import org.jgrapht.alg.interfaces.KShortestPathAlgorithm;
 import org.jgrapht.graph.GraphWalk;
 import org.junit.Test;
@@ -70,20 +71,26 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
      */
     protected static enum GraphProperties
     {
-        LOOP,
+        DIRECTED,
+        UNDIRECTED,
+        MIXED,
+        SELFLOOP,
+        CYCLES,
+        WEIGHTED,
         MULTIEDGE,
         NEGATIVE_WEIGHT;
     }
 
     protected static EnumSet<GraphProperties> GRAPH_SIMPLE = EnumSet.noneOf(GraphProperties.class);
     protected static EnumSet<GraphProperties> GRAPH_NONE = EnumSet.noneOf(GraphProperties.class);
-    protected static EnumSet<GraphProperties> GRAPH_WITH_LOOP = EnumSet.of(GraphProperties.LOOP);
+    protected static EnumSet<GraphProperties> GRAPH_WITH_SELFLOOP =
+        EnumSet.of(GraphProperties.SELFLOOP);
     protected static EnumSet<GraphProperties> GRAPH_WITH_MULTIEDGE =
         EnumSet.of(GraphProperties.MULTIEDGE);
     protected static EnumSet<GraphProperties> GRAPH_WITH_NEGATIVE_WEIGHT =
         EnumSet.of(GraphProperties.NEGATIVE_WEIGHT);
-    protected static EnumSet<GraphProperties> GRAPH_WITH_LOOP_AND_MULTIEDGE =
-        EnumSet.of(GraphProperties.LOOP, GraphProperties.MULTIEDGE);
+    protected static EnumSet<GraphProperties> GRAPH_WITH_SELFLOOP_AND_MULTIEDGE =
+        EnumSet.of(GraphProperties.SELFLOOP, GraphProperties.MULTIEDGE);
 
     /**
      * Helper class to hold information about an algorithm.
@@ -132,7 +139,11 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
     {
         this.algInfo = alg;
         this.graph = graph;
-        this.graphProperties = graphProperties;
+        this.graphProperties = graphProperties.clone();
+        GraphType gtype = graph.getType();
+        if (gtype.isUndirected()) {
+            this.graphProperties.add(GraphProperties.UNDIRECTED);
+        }
         this.k = k;
         this.source = source;
         this.sink = sink;
@@ -207,18 +218,17 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
      */
     protected static <V, E> Collection<Object[]> blendGraphsAlgs(List<Object[]> graphs)
     {
-        ArrayList<AlgorithmInfo<V, E>> algs =
-            new ArrayList<AbstractMultiShortestPathsTest.AlgorithmInfo<V, E>>();
-        algs.add(new AlgorithmInfo<V, E>("KShortestPaths", GRAPH_NONE, KShortestPaths<V, E>::new));
+        ArrayList<AlgorithmInfo<V, E>> algs = new ArrayList<AlgorithmInfo<V, E>>();
+        algs.add(new AlgorithmInfo<V, E>("KShortestPaths", GRAPH_WITH_SELFLOOP, KShortestPaths<V, E>::new));
         algs.add(new AlgorithmInfo<V, E>("YenKShortestPaths+Dijkstra", EnumSet.of(
-            GraphProperties.LOOP, GraphProperties.NEGATIVE_WEIGHT, GraphProperties.MULTIEDGE),
-            YenKShortestPaths<V, E>::new));
-        algs.add(new AlgorithmInfo<V, E>(
-            "YenKShortestPaths+BellmanFord",
-            EnumSet.of(GraphProperties.LOOP, GraphProperties.MULTIEDGE),
+            GraphProperties.CYCLES, GraphProperties.SELFLOOP, GraphProperties.NEGATIVE_WEIGHT,
+            GraphProperties.MULTIEDGE), YenKShortestPaths<V, E>::new));
+        algs.add(new AlgorithmInfo<V, E>("YenKShortestPaths+BellmanFord", EnumSet.of(
+            GraphProperties.CYCLES, GraphProperties.SELFLOOP, GraphProperties.MULTIEDGE),
             (g, k) -> new YenKShortestPaths<V, E>(g, k, BellmanFordShortestPath<V, E>::new)));
-        algs.add(
-            new AlgorithmInfo<V, E>("Eppstein", GRAPH_NONE, EppsteinKShortestPaths<V, E>::new));
+        algs.add(new AlgorithmInfo<V, E>(
+            "Eppstein", EnumSet.of(GraphProperties.UNDIRECTED, GraphProperties.MIXED),
+            EppsteinKShortestPaths<V, E>::new));
 
         ArrayList<Object[]> params = new ArrayList<Object[]>();
         for (Object[] graph : graphs) {

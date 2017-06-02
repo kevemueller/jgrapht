@@ -53,8 +53,8 @@ public final class MultiShortestPathsStringDETest
     public static Collection<Object[]> data()
     {
         List<Object[]> graphs = Collections.singletonList(
-            new Object[] { "NotBiconnectedGraph", new NotBiconnectedGraph(), GRAPH_WITH_LOOP, 5,
-                "0", "5", Arrays.asList("0,3,5", "0,3,1,4,5"), Arrays.asList(2, 4) });
+            new Object[] { "NotBiconnectedGraph", new NotBiconnectedGraph(), EnumSet.of(GraphProperties.CYCLES), 5, "0",
+                "5", Arrays.asList("0,3,5", "0,3,1,4,5"), Arrays.asList(2, 4) });
 
         return blendGraphsAlgs(graphs);
     }

@@ -1,3 +1,20 @@
+/*
+ * (C) Copyright 2017-2017, by Keve Müller and Contributors.
+ *
+ * JGraphT : a free Java graph-theory library
+ *
+ * This program and the accompanying materials are dual-licensed under
+ * either
+ *
+ * (a) the terms of the GNU Lesser General Public License version 2.1
+ * as published by the Free Software Foundation, or (at your option) any
+ * later version.
+ *
+ * or (per the licensee's choosing)
+ *
+ * (b) the terms of the Eclipse Public License v1.0 as published by
+ * the Eclipse Foundation.
+ */
 package org.jgrapht.alg.shortestpath;
 
 import java.util.ArrayList;
@@ -32,13 +49,15 @@ import org.jgrapht.traverse.ClosestFirstIterator;
  * <li><a href="http://www.isi.edu/natural-language/people/epp-cs562.pdf">Course notes</a></li>
  * <li><a href="https://www.ics.uci.edu/~eppstein/pubs/graehl.zip">Graehl's implementation</a></li>
  * </ul>
+ * <p>
+ * The time complexity of the algorithm is $O(m + n log n + k n)$, where n is the number of edges
+ * and m is the number of vertices.
  * 
  * @author Keve Müller
  *
- * @param <V>
- * @param <E>
+ * @param <V> the graph vertex type
+ * @param <E> the graph edge type
  */
-
 public final class EppsteinKShortestPaths<V, E>
     implements KShortestPathAlgorithm<V, E>
 {
@@ -60,18 +79,17 @@ public final class EppsteinKShortestPaths<V, E>
      */
     public EppsteinKShortestPaths(Graph<V, E> graph, int hintK)
     {
-        this.graph = graph;
+        this.graph = Objects.requireNonNull(graph);
         this.hintK = hintK;
+        assert (graph.getType().isDirected());
     }
 
     @Override
     public List<GraphPath<V, E>> getPaths(V startVertex, V endVertex)
     {
-        EppsteinKShortestPathsImpl<V, E> impl =
-            new EppsteinKShortestPathsImpl<V, E>(graph, startVertex, endVertex);
-
         ArrayList<GraphPath<V, E>> paths = new ArrayList<GraphPath<V, E>>();
-        Iterator<GraphPath<V, E>> iter = impl.iterator();
+        Iterator<GraphPath<V, E>> iter =
+            new EppsteinKShortestPathsImpl<V, E>(graph, startVertex, endVertex).iterator();
         int k = 0;
         while (iter.hasNext() && k++ < hintK) {
             paths.add(iter.next());
@@ -95,9 +113,6 @@ public final class EppsteinKShortestPaths<V, E>
 
     /**
      * The class performing the actual work.
-     * 
-     * @author Keve Müller
-     *
      */
     private static class EppsteinKShortestPathsImpl<V, E>
     {
@@ -117,15 +132,28 @@ public final class EppsteinKShortestPaths<V, E>
          * For each vertex v in graph, provide the shared heaps of sidetrack edges.
          */
         private final HashMap<V, EppsteinTreeHeap<E>> hTHeaps;
-
+        /**
+         * From/start/source vertex.
+         */
         private final V from;
+        /**
+         * To/end/sink vertex.
+         */
         private final V to;
 
+        /**
+         * Construct the instance provided the graph and the vertices.
+         * 
+         * @param graph the graph.
+         * @param from the from/start/source vertex.
+         * @param to tehe to/end/sink vertex.
+         */
         public EppsteinKShortestPathsImpl(Graph<V, E> graph, V from, V to)
         {
-            this.graph = graph;
+            this.graph = Objects.requireNonNull(graph);
             this.from = from;
             this.to = to;
+            assert (graph.getType().isDirected());
             final EdgeReversedGraph<V, E> transposedGraph = new EdgeReversedGraph<V, E>(graph);
 
             HashMap<V, Double> shortestWeights = new HashMap<V, Double>();
@@ -194,14 +222,14 @@ public final class EppsteinKShortestPaths<V, E>
         /**
          * Create and return an iterator that produces on-the-fly the next shortest paths.
          * 
-         * @return
+         * @return the iterator over the k shortest paths
          */
         public Iterator<GraphPath<V, E>> iterator()
         {
             final PriorityQueue<EppsteinPath<V, E>> pathQueue =
                 new PriorityQueue<EppsteinPath<V, E>>();
             if (null != hTHeaps) {
-                // the initial eppstein path is the special path corresponding
+                // the initial Eppstein path is the special path corresponding
                 // to the shortest path
                 // if there is one.
                 pathQueue.add(new InitialEppsteinPath());
@@ -226,11 +254,9 @@ public final class EppsteinKShortestPaths<V, E>
 
         /**
          * The interface for Eppstein paths.
-         * 
-         * @author Keve Müller
          *
-         * @param <V>
-         * @param <E>
+         * @param <V> the graph vertex type
+         * @param <E> the graph edge type
          */
         private interface EppsteinPath<V, E>
             extends Comparable<EppsteinPath<V, E>>
@@ -245,21 +271,21 @@ public final class EppsteinKShortestPaths<V, E>
             /**
              * Get the GraphPath described by this EppsteinPath.
              * 
-             * @return
+             * @return the graph path.
              */
             GraphPath<V, E> getPath();
 
             /**
              * Get the cost of this path.
              * 
-             * @return
+             * @return the cost.
              */
             double getCost();
 
             /**
              * Get the sidetracks that uniquely define this EppsteinPath.
              * 
-             * @return
+             * @return the list of sidetrack edges
              */
             List<E> getSidetracks();
 
@@ -292,9 +318,7 @@ public final class EppsteinKShortestPaths<V, E>
         /**
          * A special EppsteinPath representing the initial edge in the Graph tree pointing to the
          * source vertex. The path itself is the shortest path from source to sink with its cost.
-         * There list of sidetracks is empty.
-         * 
-         * @author Keve M�ller
+         * The list of sidetracks is empty.
          */
         private class InitialEppsteinPath
             implements EppsteinPath<V, E>
@@ -305,8 +329,7 @@ public final class EppsteinKShortestPaths<V, E>
             public InitialEppsteinPath()
             {
                 this.pathEdges = new ArrayList<E>();
-                double cost = addShortestTo(pathEdges, from);
-                this.cost = cost;
+                this.cost = addShortestTo(pathEdges, from);
             }
 
             @Override
@@ -339,9 +362,6 @@ public final class EppsteinKShortestPaths<V, E>
 
         /**
          * The default EppsteinPath.
-         * 
-         * @author Keve M�ller
-         *
          */
         private class DefaultEppsteinPath
             implements EppsteinPath<V, E>
@@ -515,8 +535,6 @@ public final class EppsteinKShortestPaths<V, E>
          * Special heap structure distinguishing the smallest element from the rest of the binary
          * heap.
          * 
-         * @author Keve M�ller
-         *
          * @param <E>
          */
         private static class HoutHeap<E>
@@ -555,17 +573,26 @@ public final class EppsteinKShortestPaths<V, E>
          * additional sidetracks. Read Epstein's paper (several times) to understand this structure.
          * There are no ordinary add/remove operations, as the construction is custom tailored to
          * the algorithm.
-         * 
-         * @author Keve Müller
          */
         private static class EppsteinTreeHeap<E>
         {
+            /**
+             * the sidetrack edge associated with the root of this heap
+             */
+            private final Pair<E, Double> sideTrack;
+            /**
+             * The left sub heap.
+             */
             private EppsteinTreeHeap<E> left;
+            /**
+             * The right sub heap.
+             */
             private EppsteinTreeHeap<E> right;
+            /**
+             * The sub heap of the second-best sidetracks.
+             */
             private EppsteinTreeHeap<E> rest;
             private int size;
-            // the sidetrack edge (u,v) associated at the root of this heap
-            private final Pair<E, Double> sideTrack;
 
             public static <E> EppsteinTreeHeap<E> empty()
             {
