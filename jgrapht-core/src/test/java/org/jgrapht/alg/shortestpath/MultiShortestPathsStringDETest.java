@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017, by Keve Müller.
+ * (C) Copyright 2017-2017, by Keve Müller and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *

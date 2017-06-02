@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017, by Keve Müller.
+ * (C) Copyright 2017-2017, by Keve Müller and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -54,8 +54,8 @@ import org.jgrapht.graph.MaskSubgraph;
  * 
  * <p>
  * The time complexity of the algorithm depends on the chosen shortest path algorithm. With the
- * default @link {@link DijkstraShortestPath} which uses Fibonacci heaps the complexity is O(K N (M
- * + N log N)).
+ * default @link {@link DijkstraShortestPath} which uses Fibonacci heaps the complexity is $O(K N (M
+ * + N log N))$, where N is the number of edges and M is the number of vertices.
  *
  * @author Keve Müller
  *

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017, by Keve Müller.
+ * (C) Copyright 2017-2017, by Keve Müller and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -33,7 +33,24 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
  * edge cost. The algorithm was published by Jin Y. Yen in 1971 and employs any shortest path
  * algorithm to find the best path, then proceeds to find K-1 deviations of the best path.
  * <p>
- * Based on pseudocode published at https://en.wikipedia.org/wiki/Yen%27s_algorithm
+ * Based on pseudocode published on
+ * <a href="https://en.wikipedia.org/wiki/Yen%27s_algorithm">Wikipedia</a>
+ * 
+ * <p>
+ * This implementation will hold a strong reference to all shortest paths returned so far. The
+ * algorithm pre-calculates and stores the minimum number of next shortest paths that is needed to
+ * determine the actual next shortest path.
+ * 
+ * <p>
+ * The shortest path algorithm to determine the paths may be passed as a parameter. Any constraint
+ * of that algorithm must be obeyed, e.g. the default {@link DijkstraShortestPath} will not allow
+ * negative edge weights.
+ * 
+ * <p>
+ * The time complexity of the algorithm depends on the chosen shortest path algorithm. With the
+ * default @link {@link DijkstraShortestPath} which uses Fibonacci heaps the complexity is $O(K N (M
+ * + N log N))$, where N is the number of edges and M is the number of vertices.
+ *
  * <p>
  * This class uses {@link YenKShortestPathsIterator} to perform the actual work.
  *
