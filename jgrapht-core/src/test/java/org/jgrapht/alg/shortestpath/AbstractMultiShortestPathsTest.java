@@ -159,8 +159,13 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
     /**
      * Test that the paths returned are
      * <ul>
+     * <li>pointing this the current graph</li>
      * <li>starting from the source vertex.</li>
      * <li>ending at the sink vertex.</li>
+     * <li>first vertex is the source vertex</li>
+     * <li>last vertex is the sink vertex</li>
+     * <li>first edge is starting from the source vertex</li>
+     * <li>last edge is ending with the sink vertex</li>
      * <li>the total cost of the path equals the sum of its edge costs</li>
      * <li>are returned in increasing order of cost.</li>
      * </ul>
@@ -179,11 +184,29 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
 
         double lastWeight = Double.MIN_VALUE;
         for (GraphPath<V, E> p : paths) {
+            assertEquals(graph, p.getGraph());
             assertEquals(source, p.getStartVertex());
             assertEquals(sink, p.getEndVertex());
+            List<E> edges = p.getEdgeList();
+            assertTrue(
+                "first edge /" + edges.get(0) + "/ must start with the source /" + source
+                    + "/ vertex",
+                source.equals(graph.getEdgeSource(edges.get(0))) || (graph.getType().isUndirected()
+                    && source.equals(graph.getEdgeTarget(edges.get(0)))));
+            assertTrue(
+                sink.equals(graph.getEdgeTarget(edges.get(edges.size() - 1)))
+                    || (graph.getType().isUndirected()
+                        && sink.equals(graph.getEdgeSource(edges.get(edges.size() - 1)))));
+            List<V> vertices = p.getVertexList();
+            assertEquals(
+                "first vertex /" + vertices.get(0) + "/ must be the source /" + source + "/ vertex",
+                source, vertices.get(0));
+            assertEquals(
+                "last vertex /" + vertices.get(vertices.size() - 1) + "/ must the the sink /" + sink
+                    + "/ vertex",
+                sink, vertices.get(vertices.size() - 1));
             double weight = p.getWeight();
-            double edgesWeight =
-                p.getEdgeList().stream().map(graph::getEdgeWeight).reduce(0.0, Double::sum);
+            double edgesWeight = edges.stream().map(graph::getEdgeWeight).reduce(0.0, Double::sum);
             assertEquals(weight, edgesWeight, EPSILON);
             assertTrue(weight >= lastWeight);
             lastWeight = weight;
@@ -219,7 +242,9 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
     protected static <V, E> Collection<Object[]> blendGraphsAlgs(List<Object[]> graphs)
     {
         ArrayList<AlgorithmInfo<V, E>> algs = new ArrayList<AlgorithmInfo<V, E>>();
-        algs.add(new AlgorithmInfo<V, E>("KShortestPaths", GRAPH_WITH_SELFLOOP, KShortestPaths<V, E>::new));
+        algs.add(
+            new AlgorithmInfo<V, E>(
+                "KShortestPaths", GRAPH_WITH_SELFLOOP, KShortestPaths<V, E>::new));
         algs.add(new AlgorithmInfo<V, E>("YenKShortestPaths+Dijkstra", EnumSet.of(
             GraphProperties.CYCLES, GraphProperties.SELFLOOP, GraphProperties.NEGATIVE_WEIGHT,
             GraphProperties.MULTIEDGE), YenKShortestPaths<V, E>::new));
@@ -310,9 +335,9 @@ public abstract class AbstractMultiShortestPathsTest<V, E>
                 paths.stream().map(GraphPath::getEdgeList).collect(Collectors.toList());
 
             // assert that the bag of expected equals the bag of paths
-            ArrayList<List<E>> add1 = new ArrayList<>(expectedEdgeLists);
+            List<List<E>> add1 = new ArrayList<List<E>>(expectedEdgeLists);
             add1.removeAll(pathsEdgeLists);
-            ArrayList<List<E>> add2 = new ArrayList<>(pathsEdgeLists);
+            List<List<E>> add2 = new ArrayList<List<E>>(pathsEdgeLists);
             add2.removeAll(expectedEdgeLists);
 
             assertTrue(

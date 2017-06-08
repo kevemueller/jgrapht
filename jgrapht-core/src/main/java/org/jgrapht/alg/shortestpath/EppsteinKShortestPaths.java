@@ -17,7 +17,9 @@
  */
 package org.jgrapht.alg.shortestpath;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,6 +31,7 @@ import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -158,25 +161,18 @@ public final class EppsteinKShortestPaths<V, E>
 
             HashMap<V, Double> shortestWeights = new HashMap<V, Double>();
             ClosestFirstIterator<V, E> cfi = new ClosestFirstIterator<V, E>(transposedGraph, to);
-
             // initially all edges are potential sidetrack edges
             final HashSet<E> sideTrackEdges = new HashSet<E>(graph.edgeSet());
             shortestPathEdge = new HashMap<V, E>();
             while (cfi.hasNext()) {
                 V v = cfi.next();
                 E e = cfi.getSpanningTreeEdge(v);
-                V ov;
-                double w;
                 if (null != e) {
                     sideTrackEdges.remove(e);
-                    ov = Graphs.getOppositeVertex(graph, e, v);
-                    w = graph.getEdgeWeight(e) + shortestWeights.get(ov);
                     shortestPathEdge.put(v, e);
-                } else {
-                    ov = null;
-                    w = 0.0;
                 }
-                shortestWeights.put(v, w);
+                double spl = cfi.getShortestPathLength(v);
+                shortestWeights.put(v, spl);
             }
 
             Double shortestPathWeight = shortestWeights.get(from);
@@ -216,6 +212,44 @@ public final class EppsteinKShortestPaths<V, E>
                 for (V v : graph.vertexSet()) {
                     getEppsteinHeapT(v);
                 }
+
+            }
+        }
+
+        private void printHeap(PrintStream out, int i, EppsteinTreeHeap<E> hT)
+        {
+            char[] indent = new char[i];
+            Arrays.fill(indent, ' ');
+            out.print(indent);
+            if (null == hT) {
+                out.println("-");
+                return;
+            }
+            out.print(hT.sideTrack);
+            if (null != hT.rest) {
+                printTree(out, hT.rest);
+                out.println();
+            } else {
+                out.println(" - ");
+            }
+            if (null != hT.left || null != hT.right) {
+                printHeap(out, i + 3, hT.left);
+                out.println();
+                printHeap(out, i + 3, hT.right);
+                out.println();
+            }
+        }
+
+        private void printTree(PrintStream out, EppsteinTreeHeap<E> rest)
+        {
+            out.print(rest.sideTrack);
+            out.print(", ");
+            if (null != rest.left) {
+                printTree(out, rest.left);
+            }
+            out.print(", ");
+            if (null != rest.right) {
+                printTree(out, rest.right);
             }
         }
 
@@ -306,7 +340,7 @@ public final class EppsteinKShortestPaths<V, E>
         private double addShortestTo(List<E> path, V f)
         {
             double cost = 0.0;
-            while (f != to) {
+            while (!f.equals(to)) {
                 E spE = shortestPathEdge.get(f);
                 path.add(spE);
                 f = Graphs.getOppositeVertex(graph, spE, f);
@@ -336,6 +370,10 @@ public final class EppsteinKShortestPaths<V, E>
             public void addNext(Collection<EppsteinPath<V, E>> pathQueue)
             {
                 EppsteinTreeHeap<E> hT = hTHeaps.get(from);
+//                System.err.println(
+//                    "adding initial sidetrack:" + "(" + graph.getEdgeSource(hT.sideTrack.getFirst())
+//                        + ":" + graph.getEdgeTarget(hT.sideTrack.getFirst()) + "/"
+//                        + graph.getEdgeWeight(hT.sideTrack.getFirst()) + ")");
                 if (!hT.isEmpty()) {
                     pathQueue.add(new DefaultEppsteinPath(hT, this));
                 }
@@ -378,11 +416,24 @@ public final class EppsteinKShortestPaths<V, E>
                 GraphPath<V, E> bp = baseEp.getPath();
                 List<E> lastPath = bp.getEdgeList();
 
+//                System.err.println(
+//                    "Building sidetrack " + node.sideTrack.getFirst() + " path to underlying path "
+//                        + lastPath
+//                            .stream()
+//                            .map(
+//                                e -> "(" + graph.getEdgeSource(e) + ":" + graph.getEdgeTarget(e)
+//                                    + "/" + graph.getEdgeWeight(e) + ")")
+//                            .collect(Collectors.joining(",")));
+
                 edgeList = new ArrayList<E>();
                 ListIterator<E> baseIter = lastPath.listIterator(lastPath.size());
                 V sideTrackSource = graph.getEdgeSource(node.sideTrack.getFirst());
                 while (baseIter.hasPrevious()) {
                     E e = baseIter.previous();
+                    if (graph.getEdgeTarget(e).equals(sideTrackSource)) {
+                        edgeList.add(0, e);
+                        break;
+                    }
                     if (graph.getEdgeSource(e).equals(sideTrackSource)) {
                         break;
                     }
@@ -398,11 +449,27 @@ public final class EppsteinKShortestPaths<V, E>
                 addShortestTo(edgeList, graph.getEdgeTarget(node.sideTrack.getFirst()));
 
                 this.cost = baseEp.getCost() + node.sideTrack.getSecond();
+//                System.err.println(
+//                    "Result is " + edgeList
+//                        .stream()
+//                        .map(
+//                            e -> "(" + graph.getEdgeSource(e) + ":" + graph.getEdgeTarget(e) + "/"
+//                                + graph.getEdgeWeight(e) + ")")
+//                        .collect(Collectors.joining(",")) + " total cost " + cost);
+//                System.err.println();
             }
 
             @Override
             public void addNext(Collection<EppsteinPath<V, E>> pathQueue)
             {
+
+                // System.err.println(
+//                    "Adding additional sidetracks to :" + getSidetracks()
+//                        .stream()
+//                        .map(
+//                            e -> "(" + graph.getEdgeSource(e) + ":" + graph.getEdgeTarget(e) + "/"
+//                                + graph.getEdgeWeight(e) + ")")
+//                        .collect(Collectors.joining(",")));
                 // the left subheap
                 if (null != node.left) {
                     pathQueue.add(new DefaultEppsteinPath(node.left, last));
@@ -504,6 +571,9 @@ public final class EppsteinKShortestPaths<V, E>
             EppsteinTreeHeap<E> hTNext, EppsteinTreeHeap<E> outroot)
         {
             if (null == hTNext || hTNext.isEmpty()) {
+                outroot.left = null;
+                outroot.right = null;
+                outroot.size = 0;
                 return outroot;
             }
             EppsteinTreeHeap<E> hT = hTNext.shallowClone();
