@@ -18,7 +18,6 @@
 package org.jgrapht.alg.shortestpath;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -34,9 +33,9 @@ import org.jgrapht.graph.GraphWalk;
 import org.jgrapht.graph.MaskSubgraph;
 
 /**
- * Yen's algorithm computes single-source K-shortest loopless paths for a graph with non-negative
- * edge cost. The algorithm was published by Jin Y. Yen in 1971 and employs any shortest path
- * algorithm to find the best path, then proceeds to find K-1 deviations of the best path.
+ * Yen's algorithm computes single-source shortest loopless paths for a graph. The algorithm was
+ * published by Jin Y. Yen in 1971 and employs any shortest path algorithm to find the best path,
+ * then proceeds to find K-1 deviations of the best path.
  * 
  * <p>
  * Based on pseudocode published on
@@ -44,7 +43,7 @@ import org.jgrapht.graph.MaskSubgraph;
  * 
  * <p>
  * This implementation will hold a strong reference to all shortest paths returned so far. The
- * algorithm pre-calculates and stores the minimum number of next shortest paths that is needed to
+ * algorithm pre-calculates and stores a small number of next shortest paths that are needed to
  * determine the actual next shortest path.
  * 
  * <p>
@@ -64,7 +63,7 @@ import org.jgrapht.graph.MaskSubgraph;
  *
  * @since June 1, 2017
  */
-public final class YenKShortestPathsIterator<V, E>
+public final class YenShortestPathsIterator<V, E>
     implements Iterator<GraphPath<V, E>>
 {
     /**
@@ -80,6 +79,10 @@ public final class YenKShortestPathsIterator<V, E>
      */
     private final Graph<V, E> graph;
     /**
+     * The source vertex;
+     */
+    private final V source;
+    /**
      * The sink vertex.
      */
     private final V sink;
@@ -94,7 +97,7 @@ public final class YenKShortestPathsIterator<V, E>
     private int nextIndex;
 
     /**
-     * Construct the object for searching k shortest paths in provided graph using the provided
+     * Construct the object for searching shortest paths in provided graph using the provided
      * shortest path algorithm.
      * <p>
      * It will immediately look for the overall shortest path using an instance of the algorithm
@@ -105,12 +108,13 @@ public final class YenKShortestPathsIterator<V, E>
      * @param sink the sink/to/end vertex
      * @param spFactory the factory function to create new instances of the shortest path algorithm.
      */
-    public YenKShortestPathsIterator(
+    public YenShortestPathsIterator(
         Graph<V, E> graph, V source, V sink,
         Function<Graph<V, E>, ShortestPathAlgorithm<V, E>> spFactory)
     {
         this.spFactory = spFactory;
         this.graph = graph;
+        this.source = source;
         this.sink = sink;
         a = new ArrayList<GraphPath<V, E>>();
         // Determine the shortest path from the source to the sink.
@@ -120,26 +124,19 @@ public final class YenKShortestPathsIterator<V, E>
             a.add(p);
         }
         nextIndex = 0;
-        // // Initialize the heap to store the potential kth shortest paths.
-        b = new PriorityQueue<GraphPath<V, E>>(new Comparator<GraphPath<V, E>>()
-        {
-            @Override
-            public int compare(GraphPath<V, E> arg0, GraphPath<V, E> arg1)
-            {
-                return Double.compare(arg0.getWeight(), arg1.getWeight());
-            }
-        });
+        // Initialize the heap to store the potential shortest paths.
+        b = new PriorityQueue<>((p1, p2) -> Double.compare(p1.getWeight(), p2.getWeight()));
     }
 
     /**
-     * Construct the object for searching k shortest paths in provided graph using
+     * Construct the object for searching shortest paths in provided graph using
      * {@link DijkstraShortestPath} as the base algorithm.
      * 
      * @param graph the underlying graph on which the paths are searched
      * @param source the source/from/start vertex
      * @param sink the sink/to/end vertex
      */
-    public YenKShortestPathsIterator(Graph<V, E> graph, V source, V sink)
+    public YenShortestPathsIterator(Graph<V, E> graph, V source, V sink)
     {
         this(graph, source, sink, DijkstraShortestPath<V, E>::new);
     }
@@ -176,12 +173,12 @@ public final class YenKShortestPathsIterator<V, E>
     {
         GraphPath<V, E> lastShortestPath = a.get(a.size() - 1);
         // The spur node ranges from the first node to the next to last
-        // node in the previous k-shortest path.
+        // node in the previous shortest path.
         for (int i = 0; i < lastShortestPath.getLength() - 1; i++) {
-            // Spur node is retrieved from the previous k-shortest path
+            // Spur node is retrieved from the previous shortest path
             V spurNode = lastShortestPath.getVertexList().get(i);
             // The sequence of nodes from the source to the spur node of
-            // the previous k-shortest path.
+            // the previous shortest path.
             List<V> rootPath = lastShortestPath.getVertexList().subList(0, i);
             List<V> maskedVertices = new ArrayList<V>();
             List<E> maskedEdges = new ArrayList<E>();
@@ -220,6 +217,7 @@ public final class YenKShortestPathsIterator<V, E>
                                                                  // instead
                                                                  // of null
                 // Entire path is made up of the root path and spur path.
+
                 ArrayList<E> totalPath = new ArrayList<E>();
                 Iterator<V> iter;
                 V first, current;
@@ -248,8 +246,11 @@ public final class YenKShortestPathsIterator<V, E>
                     totalPath.add(e);
                     current = v;
                 }
-                // Add the potential k-shortest path to the heap.
-                GraphWalk<V, E> gw = new GraphWalk<V, E>(graph, first, current, totalPath, weight);
+                GraphWalk<V, E> gw = new GraphWalk<V, E>(graph, source, sink, totalPath, weight);
+
+                // Add the potential shortest path to the heap.
+                // GraphWalk<V, E> gw = new GraphWalk<V, E>(graph, first, current, totalPath,
+                // weight);
                 b.add(gw);
             }
             // Add back the edges and nodes that were removed from the
@@ -268,15 +269,12 @@ public final class YenKShortestPathsIterator<V, E>
             // lie along a "dead end".
             return;
         }
-        // Sort the potential k-shortest paths by cost.
+        // Sort the potential shortest paths by cost.
         // This is done already at insertion to the PriorityQueue.
-        // Add the lowest cost path becomes the k-shortest path.
+        // Add the lowest cost path becomes the shortest path.
         GraphPath<V, E> csp;
         do {
             csp = b.poll();
-            if (null == csp) {
-                return;
-            }
         } while (lastShortestPath.getEdgeList().equals(csp.getEdgeList()));
         a.add(csp);
     }

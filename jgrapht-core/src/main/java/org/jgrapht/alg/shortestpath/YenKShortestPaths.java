@@ -25,20 +25,22 @@ import java.util.function.Function;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
+import org.jgrapht.GraphTests;
 import org.jgrapht.alg.interfaces.KShortestPathAlgorithm;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 
 /**
- * Yen's algorithm computes single-source K-shortest loopless paths for a graph with non-negative
- * edge cost. The algorithm was published by Jin Y. Yen in 1971 and employs any shortest path
- * algorithm to find the best path, then proceeds to find K-1 deviations of the best path.
+ * Yen's algorithm computes single-source K-shortest loopless paths for a graph using an underlying
+ * shortest path algorithm passed as a parameter. The algorithm was published by Jin Y. Yen in 1971
+ * and employs any shortest path algorithm to find the best path, then proceeds to find K-1
+ * deviations of the best path.
  * <p>
  * Based on pseudocode published on
  * <a href="https://en.wikipedia.org/wiki/Yen%27s_algorithm">Wikipedia</a>
  * 
  * <p>
  * This implementation will hold a strong reference to all shortest paths returned so far. The
- * algorithm pre-calculates and stores the minimum number of next shortest paths that is needed to
+ * algorithm pre-calculates and stores a small number of next shortest paths that is needed to
  * determine the actual next shortest path.
  * 
  * <p>
@@ -52,7 +54,7 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
  * + N log N))$, where N is the number of edges and M is the number of vertices.
  *
  * <p>
- * This class uses {@link YenKShortestPathsIterator} to perform the actual work.
+ * This class uses {@link YenShortestPathsIterator} to perform the actual work.
  *
  * @author Keve Müller
  *
@@ -69,9 +71,10 @@ public final class YenKShortestPaths<V, E>
      */
     private final Graph<V, E> graph;
     /**
-     * Hint on the number of paths that should be returned in a call to {@link #getPaths(Object, Object)}.
+     * The maximum number of paths that shall be returned in a call to
+     * {@link #getPaths(Object, Object)}.
      */
-    private final int hintK;
+    private final int k;
     /**
      * Factory function to create new instances of the shortest path algorithm to be used.
      */
@@ -82,31 +85,37 @@ public final class YenKShortestPaths<V, E>
      * algorithm defaults to {@link DijkstraShortestPath}.
      * 
      * @param graph the underlying graph on which the paths are searched
-     * @param hintK the hint on how many paths shall be returned by {@link #getPaths(Object, Object)}.
+     * @param k the maximum number of paths that shall be returned by
+     *        {@link #getPaths(Object, Object)}.
      */
-    public YenKShortestPaths(Graph<V, E> graph, int hintK)
+    public YenKShortestPaths(Graph<V, E> graph, int k)
     {
-        this(graph, hintK, DijkstraShortestPath<V, E>::new);
+        this(graph, k, DijkstraShortestPath<V, E>::new);
     }
 
     /**
-     * Construct the object for searching k shortest paths in provided graph using the provided
-     * shortest path algorithm.
+     * Construct the object for searching k shortest paths in provided simple graph using the
+     * provided shortest path algorithm.
      * 
      * @param graph the underlying graph on which the paths are searched.
-     * @param hintK the hint on how many paths shall be returned by {@link #getPaths(Object, Object)}.
+     * @param k the maximum number of paths that shall be returned by
+     *        {@link #getPaths(Object, Object)}.
      * @param spFactory the factory function to create new instances of the shortest path algorithm.
      */
     public YenKShortestPaths(
-        Graph<V, E> graph, int hintK, Function<Graph<V, E>, ShortestPathAlgorithm<V, E>> spFactory)
+        Graph<V, E> graph, int k, Function<Graph<V, E>, ShortestPathAlgorithm<V, E>> spFactory)
     {
-        this.graph = Objects.requireNonNull(graph);
-        this.hintK = hintK;
+        if (!GraphTests.isSimple(graph))
+            throw new IllegalArgumentException("This implementation only supports simple graphs");
+        this.graph = graph;
+        this.k = k;
         this.spFactory = Objects.requireNonNull(spFactory);
     }
 
     /**
-     * Get an iterator that returns the k-shortest paths from source to sink in increasing order.
+     * Get an iterator over all shortest paths between a source vertex and a sink vertex. The paths
+     * are returned in increasing order of their cost. The first path returned is guaranteed to be
+     * the cheapest path between the source and the sink vertex.
      * 
      * @param source the source/from/start vertex.
      * @param sink the sink/to/end vertex.
@@ -114,16 +123,25 @@ public final class YenKShortestPaths<V, E>
      */
     public Iterator<GraphPath<V, E>> getPathsIterator(V source, V sink)
     {
-        return new YenKShortestPathsIterator<V, E>(graph, source, sink, spFactory);
+        return new YenShortestPathsIterator<V, E>(graph, source, sink, spFactory);
     }
 
-    @Override
+    /**
+     * Get a list of shortest paths from a source vertex to a sink vertex. If no such paths exist
+     * this method returns an empty list. The returned List contains at most k paths, where k is the number
+     * passed in the constructor. If the graph contains less than k shortest paths, only thos paths
+     * will be returned in the List.
+     * 
+     * @param source the source vertex
+     * @param sink the target vertex
+     * @return a list of shortest paths
+     */
     public List<GraphPath<V, E>> getPaths(V source, V sink)
     {
         ArrayList<GraphPath<V, E>> a = new ArrayList<GraphPath<V, E>>();
-        YenKShortestPathsIterator<V, E> iterator =
-            new YenKShortestPathsIterator<V, E>(graph, source, sink, spFactory);
-        for (int k = 0; k < hintK && iterator.hasNext(); k++) {
+        YenShortestPathsIterator<V, E> iterator =
+            new YenShortestPathsIterator<V, E>(graph, source, sink, spFactory);
+        for (int i = 0; i < k && iterator.hasNext(); i++) {
             a.add(iterator.next());
         }
         return a;
