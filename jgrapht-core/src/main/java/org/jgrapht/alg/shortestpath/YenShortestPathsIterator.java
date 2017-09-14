@@ -120,7 +120,8 @@ public final class YenShortestPathsIterator<V, E>
         // Determine the shortest path from the source to the sink.
         ShortestPathAlgorithm<V, E> shortestPathAlgorithm = spFactory.apply(graph);
         GraphPath<V, E> p = shortestPathAlgorithm.getPath(source, sink);
-        if (null != p) {
+        if (null != p && 0 != p.getLength()) { // BellmannFord produces an empty path instead of
+                                               // null
             a.add(p);
         }
         nextIndex = 0;
@@ -171,6 +172,9 @@ public final class YenShortestPathsIterator<V, E>
      */
     private void tryAddNext()
     {
+        if (a.isEmpty()) {
+            return;
+        }
         GraphPath<V, E> lastShortestPath = a.get(a.size() - 1);
         // The spur node ranges from the first node to the next to last
         // node in the previous shortest path.

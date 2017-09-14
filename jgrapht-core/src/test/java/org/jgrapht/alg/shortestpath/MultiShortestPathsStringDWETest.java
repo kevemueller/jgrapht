@@ -77,13 +77,15 @@ public final class MultiShortestPathsStringDWETest
                         new Object[] { "Picture1Graph", new Picture1Graph(),
                             GRAPH_WITH_NEGATIVE_WEIGHT, 10, "vS", "v5",
                             Arrays.asList("vS,v1,v5", "vS,v2,v5"), Arrays.asList(6.0, 8.0) },
-                        new Object[] { "Eppstein", KShortestPathsGraphs.EPPSTEIN, GRAPH_SIMPLE,
+                        new Object[] { "Eppstein_0-11", KShortestPathsGraphs.EPPSTEIN, GRAPH_SIMPLE,
                             20, "0", "11",
                             Arrays.asList(
                                 "0,4,5,6,10,11", "0,1,2,3,7,11", "0,1,2,6,10,11", "0,4,5,9,10,11",
                                 "0,1,5,6,10,11", "0,4,5,6,7,11", "0,4,8,9,10,11", "0,1,2,6,7,11",
                                 "0,1,5,9,10,11", "0,1,5,6,7,11"),
-                            Arrays.asList(55, 58, 59, 61, 62, 64, 65, 68, 68, 71) });
+                            Arrays.asList(55, 58, 59, 61, 62, 64, 65, 68, 68, 71) },
+                        new Object[] { "Eppstein_11-0", KShortestPathsGraphs.EPPSTEIN, GRAPH_SIMPLE,
+                            20, "11", "0", Arrays.asList(), Arrays.asList() });
         return blendGraphsAlgs(graphs);
     }
 
