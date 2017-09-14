@@ -2,8 +2,8 @@
 
 Changes to JGraphT in each version:
 
-- **version 1.0.2** (under development):
-    - Added ID descripter to maven-assembly-plugin configuration to prevent a 'Assembly is incorrectly configured' error being thrown (contributed by Joris Kinable)
+- **version 1.1.0** (under development):
+    - Added ID descriptor to maven-assembly-plugin configuration to prevent a 'Assembly is incorrectly configured' error being thrown (contributed by Joris Kinable)
     - Deleted all previously deprecated methods and general cleanup (contributed by Joris Kinable)
     - Moved all importers/exporters from org.jgrapht.ext to org.jgrapht.io. This change allows users to use importers/exporters without the dependency on the various visualization libraries. (contributed by Dimitrios Michail)
     - Added vertex coloring interface `VertexColoringAlgorithm`, as well as several greedy graph coloring algorithms (`LargestDegreeFirstColoring`, `RandomGreedyColoring`, `SaturationDegreeColoring`, `SmallestDegreeLastColoring`). The former `ChromaticNumber` class is now deprecated, as well as some related classes in the experimental package. (contributed by Dimitrios Michail)
@@ -34,6 +34,9 @@ Changes to JGraphT in each version:
     - Added GraphMeasurer class to compute graph diameter, radius, vertex eccentricity, graph center and graph periphery (contributed by Joris Kinable)
     - Added GraphMetrics which computes general graph metrics; added method to compute the girth of a graph (contributed by Joris Kinable)
     - Added GraphTests: isCubic, isOverfull, isForest, isSplit (contributed by Joris Kinable)
+    - Added basic support for graph attributes in DOTExporter (contributed by Dimitrios Michail)
+    - Added a generator which generates the complement graph of a given input graph (contributed by Joris Kinable)
+    - Performance improvement for Johnson's algorithm when a directed graph has no negative edge weights (contributed by Joris Kinable)
 
 - **version 1.0.1** (16-Jan-2017):
     - Deleted all previously deprecated methods (cleanup contributed by Joris Kinable and Dimitrios Michail)
