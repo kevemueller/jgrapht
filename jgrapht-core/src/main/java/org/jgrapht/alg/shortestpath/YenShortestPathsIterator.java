@@ -28,6 +28,7 @@ import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.util.Pair;
 import org.jgrapht.graph.DirectedMaskSubgraph;
 import org.jgrapht.graph.GraphWalk;
 import org.jgrapht.graph.MaskSubgraph;
@@ -67,9 +68,11 @@ public final class YenShortestPathsIterator<V, E>
     implements Iterator<GraphPath<V, E>>
 {
     /**
-     * The list of paths found so far sorted by their weight.
+     * The list of paths found so far sorted by their weight. For implementation reasons, we store
+     * the path as well as the result of the call to getVertexList(), as the call to getVertexList()
+     * is considered expensive.
      */
-    private final ArrayList<GraphPath<V, E>> a;
+    private final ArrayList<Pair<GraphPath<V, E>, List<V>>> a;
     /**
      * Candidate next shortest paths.
      */
@@ -116,13 +119,13 @@ public final class YenShortestPathsIterator<V, E>
         this.graph = graph;
         this.source = source;
         this.sink = sink;
-        a = new ArrayList<GraphPath<V, E>>();
+        a = new ArrayList<Pair<GraphPath<V, E>, List<V>>>();
         // Determine the shortest path from the source to the sink.
         ShortestPathAlgorithm<V, E> shortestPathAlgorithm = spFactory.apply(graph);
         GraphPath<V, E> p = shortestPathAlgorithm.getPath(source, sink);
         if (null != p && 0 != p.getLength()) { // BellmannFord produces an empty path instead of
                                                // null
-            a.add(p);
+            a.add(Pair.of(p, p.getVertexList()));
         }
         nextIndex = 0;
         // Initialize the heap to store the potential shortest paths.
@@ -156,13 +159,13 @@ public final class YenShortestPathsIterator<V, E>
     public GraphPath<V, E> next()
     {
         if (nextIndex < a.size()) {
-            return a.get(nextIndex++);
+            return a.get(nextIndex++).getFirst();
         }
         tryAddNext();
         if (nextIndex >= a.size()) {
             throw new NoSuchElementException();
         }
-        return a.get(nextIndex++);
+        return a.get(nextIndex++).getFirst();
     }
 
     /**
@@ -175,24 +178,25 @@ public final class YenShortestPathsIterator<V, E>
         if (a.isEmpty()) {
             return;
         }
-        GraphPath<V, E> lastShortestPath = a.get(a.size() - 1);
+        GraphPath<V, E> lastShortestPath = a.get(a.size() - 1).getFirst();
+        List<V> lastShortestPathVertexList = a.get(a.size() - 1).getSecond();
         // The spur node ranges from the first node to the next to last
         // node in the previous shortest path.
         for (int i = 0; i < lastShortestPath.getLength() - 1; i++) {
             // Spur node is retrieved from the previous shortest path
-            V spurNode = lastShortestPath.getVertexList().get(i);
+            V spurNode = lastShortestPathVertexList.get(i);
             // The sequence of nodes from the source to the spur node of
             // the previous shortest path.
-            List<V> rootPath = lastShortestPath.getVertexList().subList(0, i);
+            List<V> rootPath = lastShortestPathVertexList.subList(0, i);
             List<V> maskedVertices = new ArrayList<V>();
             List<E> maskedEdges = new ArrayList<E>();
-            for (GraphPath<V, E> path : a) {
-                if (rootPath.equals(path.getVertexList().subList(0, i))) {
+            for (Pair<GraphPath<V, E>, List<V>> path : a) {
+                if (rootPath.equals(path.getSecond().subList(0, i))) {
                     // Remove the links that are part of the previous
                     // shortest paths which share the same root path.
                     maskedEdges.add(
                         graph
-                            .getEdge(path.getVertexList().get(i), path.getVertexList().get(i + 1)));
+                            .getEdge(path.getSecond().get(i), path.getSecond().get(i + 1)));
                 }
             }
             for (V rootPathNode : rootPath) {
@@ -280,6 +284,6 @@ public final class YenShortestPathsIterator<V, E>
         do {
             csp = b.poll();
         } while (lastShortestPath.getEdgeList().equals(csp.getEdgeList()));
-        a.add(csp);
+        a.add(Pair.of(csp, csp.getVertexList()));
     }
 }
