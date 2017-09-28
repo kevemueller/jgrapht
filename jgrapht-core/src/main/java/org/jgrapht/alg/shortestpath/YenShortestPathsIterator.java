@@ -123,8 +123,7 @@ public final class YenShortestPathsIterator<V, E>
         // Determine the shortest path from the source to the sink.
         ShortestPathAlgorithm<V, E> shortestPathAlgorithm = spFactory.apply(graph);
         GraphPath<V, E> p = shortestPathAlgorithm.getPath(source, sink);
-        if (null != p && 0 != p.getLength()) { // BellmannFord produces an empty path instead of
-                                               // null
+        if (null != p) {
             a.add(Pair.of(p, p.getVertexList()));
         }
         nextIndex = 0;
@@ -194,9 +193,8 @@ public final class YenShortestPathsIterator<V, E>
                 if (rootPath.equals(path.getSecond().subList(0, i))) {
                     // Remove the links that are part of the previous
                     // shortest paths which share the same root path.
-                    maskedEdges.add(
-                        graph
-                            .getEdge(path.getSecond().get(i), path.getSecond().get(i + 1)));
+                    maskedEdges
+                        .add(graph.getEdge(path.getSecond().get(i), path.getSecond().get(i + 1)));
                 }
             }
             for (V rootPathNode : rootPath) {
@@ -218,12 +216,7 @@ public final class YenShortestPathsIterator<V, E>
                 spFactory.apply(maskedSubgraph);
             GraphPath<V, E> spurPath = maskedShortestSpurPathAlgorithm.getPath(spurNode, sink);
 
-            if (null != spurPath && 0 != spurPath.getLength()) { // BellmannFord
-                                                                 // returns
-                                                                 // empty
-                                                                 // path
-                                                                 // instead
-                                                                 // of null
+            if (null != spurPath) {
                 // Entire path is made up of the root path and spur path.
 
                 ArrayList<E> totalPath = new ArrayList<E>();
