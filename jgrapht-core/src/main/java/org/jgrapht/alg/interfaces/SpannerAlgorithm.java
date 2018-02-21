@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2016-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -42,7 +42,8 @@ public interface SpannerAlgorithm<E>
      *
      * @param <E> the graph edge type
      */
-    interface Spanner<E> extends Iterable<E>
+    interface Spanner<E>
+        extends Iterable<E>
     {
 
         /**
@@ -61,10 +62,12 @@ public interface SpannerAlgorithm<E>
 
         /**
          * Returns an iterator over the edges in the spanner.
+         * 
          * @return iterator over the edges in the spanner.
          */
         @Override
-        default Iterator<E> iterator(){
+        default Iterator<E> iterator()
+        {
             return getEdges().iterator();
         }
     }

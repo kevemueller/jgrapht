@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Joris Kinable and Contributors.
+ * (C) Copyright 2016-2018, by Joris Kinable and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -20,7 +20,7 @@ package org.jgrapht.alg.flow;
 import java.util.*;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.*;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.alg.interfaces.*;
 import org.jgrapht.graph.*;
 

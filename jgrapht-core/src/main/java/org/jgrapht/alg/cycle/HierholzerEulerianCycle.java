@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2016-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -20,7 +20,8 @@ package org.jgrapht.alg.cycle;
 import java.util.*;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.*;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.alg.connectivity.KosarajuStrongConnectivityInspector;
 import org.jgrapht.alg.interfaces.*;
 import org.jgrapht.alg.util.*;
 import org.jgrapht.graph.*;
@@ -29,8 +30,8 @@ import org.jgrapht.util.*;
 /**
  * An implementation of Hierholzer's algorithm for finding an Eulerian cycle in Eulerian graphs. The
  * algorithm works with directed and undirected graphs which may contain loops and/or multiple
- * edges. The running time is linear, i.e. O(|E|) where |E| is the cardinality of the edge set of
- * the graph.
+ * (parallel) edges. The running time is linear, i.e. O(|E|) where |E| is the cardinality of the
+ * edge set of the graph.
  * 
  * <p>
  * See the <a href="https://en.wikipedia.org/wiki/Eulerian_path">Wikipedia article</a> for details
@@ -46,7 +47,8 @@ import org.jgrapht.util.*;
  * @since October 2016
  */
 public class HierholzerEulerianCycle<V, E>
-    implements EulerianCycleAlgorithm<V, E>
+    implements
+    EulerianCycleAlgorithm<V, E>
 {
     /*
      * The input graph.

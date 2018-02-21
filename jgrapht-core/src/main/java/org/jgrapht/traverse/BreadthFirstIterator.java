@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,10 +17,9 @@
  */
 package org.jgrapht.traverse;
 
-import org.jgrapht.Graph;
+import java.util.*;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import org.jgrapht.*;
 
 /**
  * A breadth-first iterator for a directed or undirected graph.

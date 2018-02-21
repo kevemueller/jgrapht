@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2005-2017, by Christian Soltenborn and Contributors.
+ * (C) Copyright 2005-2018, by Christian Soltenborn and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,17 +17,17 @@
  */
 package org.jgrapht.alg;
 
-import java.util.*;
+import org.jgrapht.Graph;
+import org.jgrapht.graph.EdgeReversedGraph;
 
-import org.jgrapht.*;
-import org.jgrapht.graph.*;
+import java.util.*;
 
 /**
  * Computes strongly connected components of a directed graph. The algorithm is implemented after
  * "Cormen et al: Introduction to algorithms", Chapter 22.5. It has a running time of O(V + E).
  *
  * <p>
- * Unlike {@link org.jgrapht.alg.ConnectivityInspector}, this class does not implement incremental
+ * Unlike {@link ConnectivityInspector}, this class does not implement incremental
  * inspection. The full algorithm is executed at the first call of
  * {@link KosarajuStrongConnectivityInspector#stronglyConnectedSets()} or
  * {@link KosarajuStrongConnectivityInspector#isStronglyConnected()}.
@@ -38,7 +38,9 @@ import org.jgrapht.graph.*;
  * @author Christian Soltenborn
  * @author Christian Hammer
  * @since Feb 2, 2005
+ * @deprecated Moved to package org.jgrapht.connectivity
  */
+@Deprecated
 public class KosarajuStrongConnectivityInspector<V, E>
     extends AbstractStrongConnectivityInspector<V, E>
 {

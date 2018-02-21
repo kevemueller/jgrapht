@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by John V Sichi and Contributors.
+ * (C) Copyright 2003-2018, by John V Sichi and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,18 +17,16 @@
  */
 package org.jgrapht.generate;
 
-import java.util.*;
-
-import org.jgrapht.*;
-import org.jgrapht.alg.*;
-import org.jgrapht.graph.*;
-
-import junit.framework.*;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.*;
+
+import org.jgrapht.*;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.graph.*;
+import org.junit.*;
 
 /**
  * .
@@ -180,7 +178,7 @@ public class GraphGeneratorTest
         ScaleFreeGraphGenerator<Object, DefaultEdge> generator = new ScaleFreeGraphGenerator<>(500);
         generator.generateGraph(graph, vertexFactory, null);
         ConnectivityInspector<Object, DefaultEdge> inspector = new ConnectivityInspector<>(graph);
-        assertTrue("generated graph is not connected", inspector.isGraphConnected());
+        assertTrue("generated graph is not connected", inspector.isConnected());
 
         try {
             new ScaleFreeGraphGenerator<>(-50);

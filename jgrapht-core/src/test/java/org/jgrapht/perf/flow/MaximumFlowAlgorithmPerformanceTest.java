@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2017, by Alexey Kudinkin and Contributors.
+ * (C) Copyright 2015-2018, by Alexey Kudinkin and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -22,9 +22,10 @@ import java.util.concurrent.*;
 import org.jgrapht.*;
 import org.jgrapht.alg.flow.*;
 import org.jgrapht.alg.interfaces.*;
-import org.jgrapht.alg.util.IntegerVertexFactory;
+import org.jgrapht.alg.util.*;
 import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
+import org.junit.Test;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.*;
 import org.openjdk.jmh.runner.options.*;
@@ -32,7 +33,6 @@ import org.openjdk.jmh.runner.options.*;
 import junit.framework.*;
 
 public class MaximumFlowAlgorithmPerformanceTest
-    extends TestCase
 {
 
     public static final int PERF_BENCHMARK_VERTICES_COUNT = 1000;
@@ -103,6 +103,7 @@ public class MaximumFlowAlgorithmPerformanceTest
         }
     }
 
+    @Test
     public void testRandomGraphBenchmark()
         throws RunnerException
     {

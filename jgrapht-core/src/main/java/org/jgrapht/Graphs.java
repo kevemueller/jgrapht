@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -476,7 +476,7 @@ public abstract class Graphs
 
     /**
      * Add edges from one source vertex to multiple target vertices. Whether duplicates are created
-     * depends on the underlying {@link DirectedGraph} implementation.
+     * depends on the underlying {@link Graph} implementation.
      *
      * @param graph graph to be mutated
      * @param source source vertex of the new edges

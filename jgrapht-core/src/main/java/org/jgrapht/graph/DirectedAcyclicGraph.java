@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2008-2017, by Peter Giles and Contributors.
+ * (C) Copyright 2008-2018, by Peter Giles and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -21,7 +21,7 @@ import java.io.*;
 import java.util.*;
 
 import org.jgrapht.*;
-import org.jgrapht.graph.builder.GraphBuilder;
+import org.jgrapht.graph.builder.*;
 import org.jgrapht.traverse.*;
 
 /**

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Liviu Rau and Contributors.
+ * (C) Copyright 2003-2018, by Liviu Rau and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,11 +17,10 @@
  */
 package org.jgrapht.traverse;
 
-import org.jgrapht.Graph;
-import org.jgrapht.util.TypeUtil;
+import java.util.*;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import org.jgrapht.*;
+import org.jgrapht.util.*;
 
 /**
  * A depth-first iterator for a directed or undirected graph.
@@ -94,7 +93,6 @@ public class DepthFirstIterator<V, E>
     {
         super(g, startVertex);
     }
-
 
     /**
      * Creates a new depth-first iterator for the specified graph. Iteration will start at the

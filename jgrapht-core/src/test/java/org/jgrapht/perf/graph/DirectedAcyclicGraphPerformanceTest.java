@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2008-2017, by Peter Giles and Contributors.
+ * (C) Copyright 2008-2018, by Peter Giles and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,25 +17,16 @@
  */
 package org.jgrapht.perf.graph;
 
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
-import org.jgrapht.graph.ClassBasedEdgeFactory;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DirectedAcyclicGraph;
-import org.jgrapht.graph.DirectedAcyclicGraphTest.LongVertexFactory;
-import org.jgrapht.graph.DirectedAcyclicGraphTest.RepeatableRandomGraphGenerator;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Level;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.runner.Runner;
-import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
-import org.openjdk.jmh.runner.options.OptionsBuilder;
+import org.jgrapht.graph.*;
+import org.jgrapht.graph.DirectedAcyclicGraphTest.*;
+import org.junit.Test;
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.runner.*;
+import org.openjdk.jmh.runner.options.*;
 
-import junit.framework.TestCase;
+import junit.framework.*;
 
 /**
  * A small benchmark comparing the different dag implementations.
@@ -44,7 +35,6 @@ import junit.framework.TestCase;
  * @author Dimitrios Michail
  */
 public class DirectedAcyclicGraphPerformanceTest
-    extends TestCase
 {
     @State(Scope.Benchmark)
     private static abstract class RandomGraphBenchmarkBase
@@ -123,6 +113,7 @@ public class DirectedAcyclicGraphPerformanceTest
         }
     }
 
+    @Test
     public void testDirectedAcyclicGraphRandomGraphBenchmark()
         throws RunnerException
     {

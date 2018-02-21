@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2017-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,8 +17,7 @@
  */
 package org.jgrapht.alg.interfaces;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A maximal clique enumeration algorithm.

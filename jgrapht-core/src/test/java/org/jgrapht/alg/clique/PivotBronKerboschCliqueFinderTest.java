@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2005-2017, by John V Sichi and Contributors.
+ * (C) Copyright 2005-2018, by John V Sichi and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,10 +17,10 @@
  */
 package org.jgrapht.alg.clique;
 
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.*;
+import org.jgrapht.graph.*;
 
 /**
  * .

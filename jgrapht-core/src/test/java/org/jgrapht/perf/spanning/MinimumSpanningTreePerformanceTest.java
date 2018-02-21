@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2016-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -24,10 +24,11 @@ import java.util.function.*;
 import org.jgrapht.*;
 import org.jgrapht.alg.interfaces.*;
 import org.jgrapht.alg.spanning.*;
-import org.jgrapht.alg.util.IntegerVertexFactory;
+import org.jgrapht.alg.util.*;
 import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
 import org.jgrapht.util.*;
+import org.junit.Test;
 import org.openjdk.jmh.runner.*;
 
 import junit.framework.*;
@@ -38,7 +39,6 @@ import junit.framework.*;
  * @author Dimitrios Michail
  */
 public class MinimumSpanningTreePerformanceTest
-    extends TestCase
 {
     private static final int PERF_BENCHMARK_VERTICES_COUNT = 1000;
     private static final double PERF_BENCHMARK_EDGES_PROP = 0.5;
@@ -132,6 +132,7 @@ public class MinimumSpanningTreePerformanceTest
         }
     }
 
+    @Test
     public void testBenchmark()
         throws RunnerException
     {

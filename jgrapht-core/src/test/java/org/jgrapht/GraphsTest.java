@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Christoph Zauner and Contributors.
+ * (C) Copyright 2003-2018, by Christoph Zauner and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -51,8 +51,7 @@ public class GraphsTest
     public void removeVertex_vertexNotFound()
     {
 
-        Graph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -69,8 +68,7 @@ public class GraphsTest
         graph.addEdge(b, c);
         graph.addEdge(b, d);
 
-        Graph<String, TestEdge> expectedGraph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> expectedGraph = new DefaultDirectedGraph<>(TestEdge.class);
 
         expectedGraph.addVertex(a);
         expectedGraph.addVertex(b);
@@ -109,9 +107,7 @@ public class GraphsTest
     @Test
     public void removeVertex00()
     {
-
-        Graph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -127,8 +123,7 @@ public class GraphsTest
         graph.addEdge(b, c);
         graph.addEdge(b, d);
 
-        Graph<String, TestEdge> expectedGraph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> expectedGraph = new DefaultDirectedGraph<>(TestEdge.class);
 
         expectedGraph.addVertex(a);
         expectedGraph.addVertex(c);
@@ -157,9 +152,7 @@ public class GraphsTest
     @Test
     public void removeVertex01()
     {
-
-        Graph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -169,8 +162,7 @@ public class GraphsTest
 
         graph.addEdge(a, b);
 
-        Graph<String, TestEdge> expectedGraph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> expectedGraph = new DefaultDirectedGraph<>(TestEdge.class);
 
         expectedGraph.addVertex(b);
 
@@ -194,9 +186,7 @@ public class GraphsTest
     @Test
     public void removeVertex02()
     {
-
-        Graph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -206,8 +196,7 @@ public class GraphsTest
 
         graph.addEdge(a, b);
 
-        Graph<String, TestEdge> expectedGraph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> expectedGraph = new DefaultDirectedGraph<>(TestEdge.class);
 
         expectedGraph.addVertex(a);
 
@@ -237,9 +226,7 @@ public class GraphsTest
     @Test
     public void addOutgoingEdges()
     {
-
-        DefaultDirectedGraph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        DefaultDirectedGraph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -247,8 +234,7 @@ public class GraphsTest
 
         graph.addVertex(b);
 
-        Graph<String, TestEdge> expectedGraph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> expectedGraph = new DefaultDirectedGraph<>(TestEdge.class);
 
         expectedGraph.addVertex(a);
         expectedGraph.addVertex(b);
@@ -286,9 +272,7 @@ public class GraphsTest
     @Test
     public void addIncomingEdges()
     {
-
-        DefaultDirectedGraph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        DefaultDirectedGraph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -296,8 +280,7 @@ public class GraphsTest
 
         graph.addVertex(b);
 
-        Graph<String, TestEdge> expectedGraph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        Graph<String, TestEdge> expectedGraph = new DefaultDirectedGraph<>(TestEdge.class);
 
         expectedGraph.addVertex(a);
         expectedGraph.addVertex(b);
@@ -329,9 +312,7 @@ public class GraphsTest
     @Test
     public void vertexHasChildren_B()
     {
-
-        DefaultDirectedGraph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        DefaultDirectedGraph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -364,9 +345,7 @@ public class GraphsTest
     @Test
     public void vertexHasChildren_C()
     {
-
-        DefaultDirectedGraph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        DefaultDirectedGraph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -399,9 +378,7 @@ public class GraphsTest
     @Test
     public void vertexHasParents_B()
     {
-
-        DefaultDirectedGraph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        DefaultDirectedGraph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";
@@ -434,9 +411,7 @@ public class GraphsTest
     @Test
     public void vertexHasParents_A()
     {
-
-        DefaultDirectedGraph<String, TestEdge> graph =
-            new DefaultDirectedGraph<String, TestEdge>(TestEdge.class);
+        DefaultDirectedGraph<String, TestEdge> graph = new DefaultDirectedGraph<>(TestEdge.class);
 
         String a = "A";
         String b = "B";

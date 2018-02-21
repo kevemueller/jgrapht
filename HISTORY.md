@@ -2,7 +2,33 @@
 
 Changes to JGraphT in each version:
 
-- **version 1.1.0** (under development):
+- **version 1.1.1** (under development):
+    - Prepared release cycle 1.1.1: removed deprecated code, updated dependencies, etc (contributed by Joris Kinable)
+    - Updated demos (contributed by Dimitrios Michail)
+    - Added assertions to NeighborCache (contributed by Joris Kinable)
+    - Upgraded Antlr version to 4.7 (contributed by Dimitrios Michail)
+    - Rewrote `MaximumWeightBipartiteMatching` with exact arithmetic, introducing a `GenericFibonacciHeap` (contributed by Dimitrios Michail)
+    - Updated jmh to jdk9 compatible version; updated xmlunit to 2.x (contributed by Dimitrios Michail)
+    - Fixed FastLookup specifics to init edge container capacity to 1 (suggested by shevek, contributed by Joris Kinable)
+    - Made `IntrusiveEdgesSpecifics` interface public and optimized add call sequence (suggested by shevek, contributed by Dimitrios Michail)
+    - Fixed deprecation of Class.newInstance for Java 9; cleaned up GraphTests (contributed by Dimitrios Michail)
+    - Fixed PathValidator interface to use GraphPath (contributed by Assaf Mizrachi)
+    - Added Held-Karp dynamic programming algorithm for TSP (contributed by Alexandru Văleanu)
+    - Added fundamental cycle basis implementations (contributed by Dimitrios Michail)
+    - Added `BetweennessCentrality` scoring algorithm (contributed by Assaf Mizrachi)
+    - Automatically publish snapshots after successful Travis CI builds (contributed by Davide Cavestro)
+    - Implemented method findLcas() in NaiveLcaFinder (contributed by Alexandru Văleanu)
+    - Added `MultiObjectiveShortestPathAlgorithm` interface and first implementation `MartinShortestPath` (contributed by Dimitrios Michail)
+    - Added `TwoOptHeuristicTSP` (contributed by Dimitrios Michail)
+    - Fixed bug in `JohnsonSimpleCycles` with custom edge type (spotted by fredshevek, fix contributed by Dimitrios Michail)
+    - Added Automatic-Module Names to the various jgrapht modules to support modularization in JDK 9 (contributed by Mark Raynsford)
+    - Added `GraphTypeBuilder` (contributed by Dimitrios Michail)
+    - Reimplemented BiconnectivityInspector with additional functionality such as computing bridges and articulation points.  BiconnectivityInspector now works on multiple graph types (contributed by Joris Kinable)
+    - Revised BlockCutpointGraph and added additional tests (contributed by Joris Kinable)
+    - Removed old JUnit 3 dependencies (contributed by Joris Kinable)
+    - Fixed bug with maxPathLength equal to 1 in AllDirectedPaths (contributed by Andrew Gainer-Dewar)
+
+- **version 1.1.0** (13-Nov-2017):
     - Added ID descriptor to maven-assembly-plugin configuration to prevent a 'Assembly is incorrectly configured' error being thrown (contributed by Joris Kinable)
     - Deleted all previously deprecated methods and general cleanup (contributed by Joris Kinable)
     - Moved all importers/exporters from org.jgrapht.ext to org.jgrapht.io. This change allows users to use importers/exporters without the dependency on the various visualization libraries. (contributed by Dimitrios Michail)
@@ -37,7 +63,11 @@ Changes to JGraphT in each version:
     - Added basic support for graph attributes in DOTExporter (contributed by Dimitrios Michail)
     - Added a generator which generates the complement graph of a given input graph (contributed by Joris Kinable)
     - Performance improvement for Johnson's algorithm when a directed graph has no negative edge weights (contributed by Joris Kinable)
-    - Fix `BellmanFordShortestPath` to return null instead of empty path
+    - Fix `BellmanFordShortestPath` to return null instead of empty path (contributed by Dimitrios Michail)
+    - Added type information in attributes for graph importers/exporters (contributed by Dimitrios Michail, per suggestion from Dimitrij Drus)
+    - Changed `UnionFind` from recursive to iterative (contributed by Piotr Turski)
+    - New `NeighborCache` replaces both `NeighborIndex` and `DirectedNeighborIndex`; this new class supports both directed and undirected graphs (contributed by Szabolcs Besenyei)
+    - Fixed bug in `PushRelabelMFImpl`: passing an object as parameter to `calculateMaxFlow` which is equal but not identical to the corresponding node in the graph would cause a Nullpointer exception.
 
 - **version 1.0.1** (16-Jan-2017):
     - Deleted all previously deprecated methods (cleanup contributed by Joris Kinable and Dimitrios Michail)

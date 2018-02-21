@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -22,7 +22,7 @@ import org.jgrapht.graph.builder.*;
 
 /**
  * A pseudograph. A pseudograph is a non-simple undirected graph in which both graph loops and
- * multiple edges are permitted. If you're unsure about pseudographs, see:
+ * multiple (parallel) edges are permitted. If you're unsure about pseudographs, see:
  * <a href="http://mathworld.wolfram.com/Pseudograph.html">
  * http://mathworld.wolfram.com/Pseudograph.html</a>.
  * 
@@ -31,7 +31,6 @@ import org.jgrapht.graph.builder.*;
  */
 public class Pseudograph<V, E>
     extends AbstractBaseGraph<V, E>
-    implements UndirectedGraph<V, E>
 {
     private static final long serialVersionUID = -7574564204896552581L;
 
@@ -92,38 +91,6 @@ public class Pseudograph<V, E>
         E> GraphBuilder<V, E, ? extends Pseudograph<V, E>> createBuilder(EdgeFactory<V, E> ef)
     {
         return new GraphBuilder<>(new Pseudograph<>(ef));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param edgeClass class on which to base factory for edges
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(Class)}.
-     */
-    @Deprecated
-    public static <V, E> UndirectedGraphBuilderBase<V, E, ? extends Pseudograph<V, E>, ?> builder(
-        Class<? extends E> edgeClass)
-    {
-        return new UndirectedGraphBuilder<>(new Pseudograph<>(edgeClass));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param ef the edge factory of the new graph
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(EdgeFactory)}.
-     */
-    @Deprecated
-    public static <V, E> UndirectedGraphBuilderBase<V, E, ? extends Pseudograph<V, E>, ?> builder(
-        EdgeFactory<V, E> ef)
-    {
-        return new UndirectedGraphBuilder<>(new Pseudograph<>(ef));
     }
 }
 

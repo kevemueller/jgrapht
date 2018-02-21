@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2013-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2013-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -38,6 +38,7 @@ public class JGraphXAdapterDemo
     extends JApplet
 {
     private static final long serialVersionUID = 2202072534703043194L;
+
     private static final Dimension DEFAULT_SIZE = new Dimension(530, 320);
 
     private JGraphXAdapter<String, DefaultEdge> jgxAdapter;
@@ -61,9 +62,6 @@ public class JGraphXAdapterDemo
         frame.setVisible(true);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void init()
     {

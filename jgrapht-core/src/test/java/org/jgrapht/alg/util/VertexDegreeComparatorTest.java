@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Joris Kinable and Contributors.
+ * (C) Copyright 2016-2018, by Joris Kinable and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -24,6 +24,9 @@ import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
 
 import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for VertexDegreeComparator
@@ -31,7 +34,6 @@ import junit.framework.*;
  * @author Joris Kinable
  */
 public class VertexDegreeComparatorTest
-    extends TestCase
 {
 
     protected static final int TEST_REPEATS = 20;
@@ -43,6 +45,7 @@ public class VertexDegreeComparatorTest
         randomGraphGenerator = new GnmRandomGraphGenerator<>(100, 1000, 0);
     }
 
+    @Test
     public void testVertexDegreeComparator()
     {
         for (int repeat = 0; repeat < TEST_REPEATS; repeat++) {

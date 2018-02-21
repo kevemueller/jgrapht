@@ -4,6 +4,8 @@ JGraphT wouldn't be the library it is today without the source contributions and
 
 - [Barak Naveh](http://sourceforge.net/users/barak_naveh/) (project founder)
 - [John V Sichi](http://sourceforge.net/users/perfecthash/) (current project administrator)
+- [Joris Kinable](https://github.com/jkinable) (JGraphtT Project Reviewer/Committer and Release Manager)
+- [Dimitrios Michail](https://github.com/d-michail) (JGraphT Project Reviewer/Committer)
 - [Liviu Rau](http://sourceforge.net/users/liviu_aurelian/)
 - [Nathan Fiedler](http://www.bluemarsh.com/personal/index.html)
 - [Michael Behrisch](http://sourceforge.net/users/behrisch/)
@@ -21,7 +23,6 @@ JGraphT wouldn't be the library it is today without the source contributions and
 - Carl Anderson
 - Khanh Vu
 - Aaron Harnly
-- Dimitrios Michail
 - Welson Sun
 - Trevor Harmon
 - David Black-Schaffer
@@ -51,7 +52,6 @@ JGraphT wouldn't be the library it is today without the source contributions and
 - Alejandro R. Lopez del Huerto
 - Vladimir Kostyukov
 - Ernst de Ridder
-- Joris Kinable
 - Michal Pasieka
 - Alexey Kudinkin
 - Adam Gouge
@@ -87,7 +87,7 @@ JGraphT wouldn't be the library it is today without the source contributions and
 - Sarah Komla-Ebri
 - Graeme Ahokas
 - Christoph Zauner
-- Andrew Gainer-Dewar
+- [Andrew Gainer-Dewar](https://github.com/agdphd)
 - Benedikt Waldvogel
 - Victor Mikhaylov
 - Nils Olberg
@@ -95,6 +95,10 @@ JGraphT wouldn't be the library it is today without the source contributions and
 - [Skuratovich Sergey](https://github.com/SSNikolaevich)
 - [Martin Sturm](https://github.com/WorstCase00)
 - [Patrick Sharp](https://github.com/sharpTrick)
+- [Piotr Turski](https://github.com/piotrturski)
+- [Alexandru Văleanu](https://github.com/AlexandruValeanu)
+- [Davide Cavestro](https://github.com/davidecavestro)
+- [Mark Raynsford](https://github.com/io7m)
 
 (if we have missed your name on this list, please email us to get it fixed).
 

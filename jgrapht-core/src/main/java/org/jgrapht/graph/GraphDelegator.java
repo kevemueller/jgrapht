@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -47,7 +47,7 @@ public class GraphDelegator<V, E>
     implements Graph<V, E>, Serializable
 {
     private static final long serialVersionUID = -215068279981825448L;
-    
+
     /**
      * The graph to which operations are delegated.
      */

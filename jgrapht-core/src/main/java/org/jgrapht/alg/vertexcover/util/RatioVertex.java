@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Joris Kinable and Contributors.
+ * (C) Copyright 2016-2018, by Joris Kinable and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -19,7 +19,7 @@ package org.jgrapht.alg.vertexcover.util;
 
 import java.util.*;
 
-import org.jgrapht.util.TypeUtil;
+import org.jgrapht.util.*;
 
 /**
  * Helper class for vertex covers. Guarantees that vertices can be sorted, thereby obtaining a

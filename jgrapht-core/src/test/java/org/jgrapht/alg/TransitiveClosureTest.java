@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2007-2017, by Vinayak R Borkar and Contributors.
+ * (C) Copyright 2007-2018, by Vinayak R Borkar and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,19 +17,23 @@
  */
 package org.jgrapht.alg;
 
-
-import junit.framework.*;
-import org.jgrapht.alg.util.IntegerVertexFactory;
+import org.jgrapht.alg.util.*;
 import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
+
+import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  */
 public class TransitiveClosureTest
-    extends TestCase
 {
     // ~ Methods ----------------------------------------------------------------
 
+    @Test
     public void testLinearGraph()
     {
         SimpleDirectedGraph<Integer, DefaultEdge> graph =
@@ -48,6 +52,7 @@ public class TransitiveClosureTest
         }
     }
 
+    @Test
     public void testRingGraph()
     {
         SimpleDirectedGraph<Integer, DefaultEdge> graph =
@@ -66,18 +71,22 @@ public class TransitiveClosureTest
         }
     }
 
+    @Test
     public void testNoVerticesDag()
     {
-        DirectedAcyclicGraph<Integer, DefaultEdge> graph = new DirectedAcyclicGraph<>(DefaultEdge.class);
+        DirectedAcyclicGraph<Integer, DefaultEdge> graph =
+            new DirectedAcyclicGraph<>(DefaultEdge.class);
 
         TransitiveClosure.INSTANCE.closeDirectedAcyclicGraph(graph);
 
         assertEquals(0, graph.edgeSet().size());
     }
 
+    @Test
     public void testEmptyDag()
     {
-        DirectedAcyclicGraph<Integer, DefaultEdge> graph = new DirectedAcyclicGraph<>(DefaultEdge.class);
+        DirectedAcyclicGraph<Integer, DefaultEdge> graph =
+            new DirectedAcyclicGraph<>(DefaultEdge.class);
         int n = 10;
         EmptyGraphGenerator<Integer, DefaultEdge> gen = new EmptyGraphGenerator<>(n);
         gen.generateGraph(graph, new IntegerVertexFactory(), null);
@@ -87,10 +96,13 @@ public class TransitiveClosureTest
         assertEquals(0, graph.edgeSet().size());
     }
 
+    @Test
     public void testCompleteBipartiteDag()
     {
-        DirectedAcyclicGraph<Integer, DefaultEdge> graph = new DirectedAcyclicGraph<>(DefaultEdge.class);
-        CompleteBipartiteGraphGenerator<Integer, DefaultEdge> gen = new CompleteBipartiteGraphGenerator<>(5, 5);
+        DirectedAcyclicGraph<Integer, DefaultEdge> graph =
+            new DirectedAcyclicGraph<>(DefaultEdge.class);
+        CompleteBipartiteGraphGenerator<Integer, DefaultEdge> gen =
+            new CompleteBipartiteGraphGenerator<>(5, 5);
         gen.generateGraph(graph, new IntegerVertexFactory(), null);
 
         TransitiveClosure.INSTANCE.closeDirectedAcyclicGraph(graph);
@@ -98,9 +110,11 @@ public class TransitiveClosureTest
         assertEquals(25, graph.edgeSet().size());
     }
 
+    @Test
     public void testLinearGraphForDag()
     {
-        DirectedAcyclicGraph<Integer, DefaultEdge> graph = new DirectedAcyclicGraph<>(DefaultEdge.class);
+        DirectedAcyclicGraph<Integer, DefaultEdge> graph =
+            new DirectedAcyclicGraph<>(DefaultEdge.class);
         int n = 10;
         LinearGraphGenerator<Integer, DefaultEdge> gen = new LinearGraphGenerator<>(n);
         gen.generateGraph(graph, new IntegerVertexFactory(), null);

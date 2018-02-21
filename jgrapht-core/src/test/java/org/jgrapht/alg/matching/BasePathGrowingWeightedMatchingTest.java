@@ -8,6 +8,10 @@ import org.jgrapht.alg.interfaces.MatchingAlgorithm.*;
 import org.jgrapht.alg.util.*;
 import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public abstract class BasePathGrowingWeightedMatchingTest
     extends ApproximateWeightedMatchingTest
@@ -21,6 +25,7 @@ public abstract class BasePathGrowingWeightedMatchingTest
     public abstract MatchingAlgorithm<Integer, DefaultWeightedEdge> getApproximationAlgorithm(
         Graph<Integer, DefaultWeightedEdge> graph);
 
+    @Test
     public void testDynamicProgrammingOnPaths()
     {
         // test 0
@@ -87,6 +92,7 @@ public abstract class BasePathGrowingWeightedMatchingTest
         assertTrue(matching3.contains(g.getEdge(10, 11)));
     }
 
+    @Test
     public void testApproximationFactorOnRandomInstances()
     {
         final int seed = 33;
@@ -109,9 +115,11 @@ public abstract class BasePathGrowingWeightedMatchingTest
             MatchingAlgorithm<Integer, DefaultWeightedEdge> alg2 =
                 new PathGrowingWeightedMatching<>(g, false);
             Matching<Integer, DefaultWeightedEdge> m2 = alg2.getMatching();
-            MatchingAlgorithm<Integer, DefaultWeightedEdge> alg3 = new EdmondsMaximumCardinalityMatching<>(g);
+            MatchingAlgorithm<Integer, DefaultWeightedEdge> alg3 =
+                new EdmondsMaximumCardinalityMatching<>(g);
             Matching<Integer, DefaultWeightedEdge> m3 = alg3.getMatching();
-            MatchingAlgorithm<Integer, DefaultWeightedEdge> alg4 = new GreedyWeightedMatching<>(g, false);
+            MatchingAlgorithm<Integer, DefaultWeightedEdge> alg4 =
+                new GreedyWeightedMatching<>(g, false);
             Matching<Integer, DefaultWeightedEdge> m4 = alg4.getMatching();
 
             assertTrue(isMatching(g, m1));

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2017, by Florian Buenzli and Contributors.
+ * (C) Copyright 2015-2018, by Florian Buenzli and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.Map.*;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.*;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.*;
 
 /**
@@ -88,8 +88,8 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
 
     /**
      * Setup a clique minimal separator decomposition on undirected graph <code>
-     * g</code>. Loops and multiple edges are removed, i.e. the graph is transformed to a simple
-     * graph.
+     * g</code>. Loops and multiple (parallel) edges are removed, i.e. the graph is transformed to a
+     * simple graph.
      *
      * @param g The graph to decompose.
      */
@@ -260,7 +260,7 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
 
                     tmpGraph.removeAllVertices(separator);
                     ConnectivityInspector<V, E> con = new ConnectivityInspector<>(tmpGraph);
-                    if (con.isGraphConnected()) {
+                    if (con.isConnected()) {
                         throw new RuntimeException("separator did not separate the graph");
                     }
                     for (Set<V> component : con.connectedSets()) {

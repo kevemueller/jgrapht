@@ -17,9 +17,10 @@
  */
 package org.jgrapht.io;
 
-import org.jgrapht.io.DSVUtils;
-
 import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * .
@@ -27,9 +28,9 @@ import junit.framework.*;
  * @author Dimitrios Michail
  */
 public class DSVUtilsTest
-    extends TestCase
 {
 
+    @Test
     public void testEscape()
     {
         String input1 = "nothing special in here";
@@ -50,6 +51,7 @@ public class DSVUtilsTest
         assertEquals("\"\"\"foo\"\"\n\"\"foo\"\"\"", DSVUtils.escapeDSV(input5, ';'));
     }
 
+    @Test
     public void testUnescape()
     {
         String input1 = "nothing special in here";
