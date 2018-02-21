@@ -24,7 +24,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.jgrapht.Graph;
-import org.jgrapht.alg.NotBiconnectedGraph;
+import org.jgrapht.alg.connectivity.NotBiconnectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

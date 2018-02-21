@@ -24,12 +24,10 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.function.Function;
 
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.util.Pair;
-import org.jgrapht.graph.DirectedMaskSubgraph;
 import org.jgrapht.graph.GraphWalk;
 import org.jgrapht.graph.MaskSubgraph;
 
@@ -65,7 +63,8 @@ import org.jgrapht.graph.MaskSubgraph;
  * @since June 1, 2017
  */
 public final class YenShortestPathsIterator<V, E>
-    implements Iterator<GraphPath<V, E>>
+    implements
+    Iterator<GraphPath<V, E>>
 {
     /**
      * The list of paths found so far sorted by their weight. For implementation reasons, we store
@@ -203,14 +202,8 @@ public final class YenShortestPathsIterator<V, E>
                 }
             }
 
-            MaskSubgraph<V, E> maskedSubgraph;
-            if (graph instanceof DirectedGraph) {
-                maskedSubgraph = new DirectedMaskSubgraph<V, E>(
-                    (DirectedGraph<V, E>) graph, maskedVertices::contains, maskedEdges::contains);
-            } else {
-                maskedSubgraph =
-                    new MaskSubgraph<V, E>(graph, maskedVertices::contains, maskedEdges::contains);
-            }
+            MaskSubgraph<V, E> maskedSubgraph =
+                new MaskSubgraph<V, E>(graph, maskedVertices::contains, maskedEdges::contains);
             // Calculate the spur path from the spur node to the sink.
             ShortestPathAlgorithm<V, E> maskedShortestSpurPathAlgorithm =
                 spFactory.apply(maskedSubgraph);
