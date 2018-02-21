@@ -5,7 +5,7 @@
 	<artifactId>jgrapht</artifactId>
 	<packaging>pom</packaging>
 	<name>JGraphT - Parent</name>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<description>A Java class library for graph-theory data structures and algorithms.</description>
 	<url>http://www.jgrapht.org</url>
 	<parent>
@@ -72,10 +72,10 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>xmlunit</groupId>
-				<artifactId>xmlunit</artifactId>
-				<version>1.3</version>
-				<scope>test</scope>
+			    <groupId>org.xmlunit</groupId>
+			    <artifactId>xmlunit-core</artifactId>
+			    <version>2.5.1</version>
+			    <scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
@@ -122,7 +122,7 @@
 						<exclude>org.jgrapht.experimental</exclude>
 						<show>protected</show>
 						<windowtitle>JGraphT : a free Java graph library</windowtitle>
-						<header>&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML,http://jgrapht.org/mathjax/mathjaxConfig.js&quot;&gt;&lt;/script&gt;</header>
+						<header>&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML,http://jgrapht.org/mathjax/mathjaxConfig.js"&gt;&lt;/script&gt;</header>
 						<additionalparam>--allow-script-in-comments</additionalparam>
 					</configuration>
 				</plugin>

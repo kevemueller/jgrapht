@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2008-2017, by John V Sichi and Contributors.
+ * (C) Copyright 2008-2018, by John V Sichi and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -132,6 +132,5 @@ public interface GraphPath<V, E>
     }
 
 }
-
 
 // End GraphPath.java

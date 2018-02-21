@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2017, by Alexey Kudinkin and Contributors.
+ * (C) Copyright 2015-2018, by Alexey Kudinkin and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -20,6 +20,9 @@ package org.jgrapht.alg.flow;
 import org.jgrapht.*;
 import org.jgrapht.alg.interfaces.*;
 import org.jgrapht.graph.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class PushRelabelMFImplTest
     extends MaximumFlowAlgorithmTest
@@ -30,5 +33,28 @@ public class PushRelabelMFImplTest
         Graph<Integer, DefaultWeightedEdge> network)
     {
         return new PushRelabelMFImpl<>(network);
+    }
+
+    @Test
+    public void testPushRelabelWithNonIdenticalNode() {
+        SimpleDirectedGraph<String,DefaultEdge> g1 = new SimpleDirectedGraph<String, DefaultEdge>(DefaultEdge.class) ;
+
+        g1.addVertex("v0");
+        g1.addVertex("v1");
+        g1.addVertex("v2");
+        g1.addVertex("v3");
+        g1.addVertex("v4");
+        g1.addEdge("v0","v2");
+        g1.addEdge("v3","v4");
+        g1.addEdge("v1","v0");
+        g1.addEdge("v0","v4");
+        g1.addEdge("v0","v1");
+        g1.addEdge("v2","v1");
+
+        MaximumFlowAlgorithm<String, DefaultEdge> mf1 = new PushRelabelMFImpl<>(g1);
+        String sourceFlow = "v" + new String("v3").substring(1) ;
+        String sinkFlow = "v0" ;
+        double flow = mf1.calculateMaximumFlow(sourceFlow,sinkFlow);
+        assertEquals(0.0, flow,0);
     }
 }

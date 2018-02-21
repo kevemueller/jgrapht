@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2007-2017, by France Telecom and Contributors.
+ * (C) Copyright 2007-2018, by France Telecom and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -20,7 +20,7 @@ package org.jgrapht.alg.shortestpath;
 import java.util.*;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.*;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.*;
 
 /**
@@ -337,14 +337,25 @@ final class RankingPathElementList<V, E>
         if (isGuardVertexDisconnected(prevPathElement)) {
             return true;
         }
-        if (externalPathValidator != null
-            && !externalPathValidator.isValidPath(prevPathElement, edge))
-        {
-            return true;
 
-        } else {
-            return false;
+        if (externalPathValidator != null) {
+            GraphPath<V, E> prevPath;
+            if (prevPathElement.getPrevEdge() == null) {
+                prevPath = new GraphWalk<>(
+                    graph, Arrays.asList(prevPathElement.getVertex()), prevPathElement.getWeight());
+            } else {
+                List<E> prevEdges = prevPathElement.createEdgeListPath();
+                prevPath = new GraphWalk<V, E>(
+                    graph, graph.getEdgeSource(prevEdges.get(0)), prevPathElement.getVertex(),
+                    prevEdges, prevPathElement.getWeight());
+            }
+
+            if (!externalPathValidator.isValidPath(prevPath, edge)) {
+                return true;
+            }
         }
+
+        return false;
     }
 
     /**

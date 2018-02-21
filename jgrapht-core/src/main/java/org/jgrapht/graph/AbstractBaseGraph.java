@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -42,8 +42,12 @@ import org.jgrapht.util.*;
  * @since Jul 24, 2003
  */
 public abstract class AbstractBaseGraph<V, E>
-    extends AbstractGraph<V, E>
-    implements Graph<V, E>, Cloneable, Serializable
+    extends
+    AbstractGraph<V, E>
+    implements
+    Graph<V, E>,
+    Cloneable,
+    Serializable
 {
     private static final long serialVersionUID = 4811000483921413364L;
 
@@ -64,47 +68,11 @@ public abstract class AbstractBaseGraph<V, E>
 
     /**
      * Construct a new graph. The graph can either be directed or undirected, depending on the
-     * specified edge factory. The graph is by default unweighted.
-     *
-     * @param ef the edge factory of the new graph.
-     * @param allowMultipleEdges whether to allow multiple edges or not.
-     * @param allowLoops whether to allow edges that are self-loops or not.
-     *
-     * @throws NullPointerException if the specified edge factory is <code>
-     * null</code>.
-     * @deprecated Use {@link #AbstractBaseGraph(EdgeFactory, boolean, boolean, boolean, boolean)}
-     *             instead.
-     */
-    @Deprecated
-    protected AbstractBaseGraph(
-        EdgeFactory<V, E> ef, boolean allowMultipleEdges, boolean allowLoops)
-    {
-        Objects.requireNonNull(ef);
-
-        this.edgeFactory = ef;
-        this.allowingLoops = allowLoops;
-        this.allowingMultipleEdges = allowMultipleEdges;
-        this.specifics =
-            Objects.requireNonNull(createSpecifics(), GRAPH_SPECIFICS_MUST_NOT_BE_NULL);
-        if (this instanceof DirectedGraph<?, ?>) {
-            this.directed = true;
-        } else if (this instanceof UndirectedGraph<?, ?>) {
-            this.directed = false;
-        } else {
-            throw new IllegalArgumentException("Graph must be either directed or undirected");
-        }
-        this.weighted = false;
-        this.intrusiveEdgesSpecifics = Objects
-            .requireNonNull(createIntrusiveEdgesSpecifics(false), GRAPH_SPECIFICS_MUST_NOT_BE_NULL);
-    }
-
-    /**
-     * Construct a new graph. The graph can either be directed or undirected, depending on the
      * specified edge factory.
      *
      * @param ef the edge factory of the new graph.
      * @param directed if true the graph will be directed, otherwise undirected
-     * @param allowMultipleEdges whether to allow multiple edges or not.
+     * @param allowMultipleEdges whether to allow multiple (parallel) edges or not.
      * @param allowLoops whether to allow edges that are self-loops or not.
      * @param weighted whether the graph is weighted, i.e. the edges support a weight attribute
      *
@@ -149,10 +117,10 @@ public abstract class AbstractBaseGraph<V, E>
     }
 
     /**
-     * Returns <code>true</code> if and only if multiple edges are allowed in this graph. The
+     * Returns <code>true</code> if and only if multiple (parallel) edges are allowed in this graph. The
      * meaning of multiple edges is that there can be many edges going from vertex v1 to vertex v2.
      *
-     * @return <code>true</code> if and only if multiple edges are allowed.
+     * @return <code>true</code> if and only if multiple (parallel) edges are allowed.
      */
     public boolean isAllowingMultipleEdges()
     {
@@ -216,13 +184,11 @@ public abstract class AbstractBaseGraph<V, E>
 
         E e = edgeFactory.createEdge(sourceVertex, targetVertex);
 
-        if (containsEdge(e)) { // this restriction should stay!
-            return null;
-        } else {
-            intrusiveEdgesSpecifics.add(e, sourceVertex, targetVertex);
+        if (intrusiveEdgesSpecifics.add(e, sourceVertex, targetVertex)) {
             specifics.addEdgeToTouchingVertices(e);
             return e;
         }
+        return null;
     }
 
     /**
@@ -233,8 +199,6 @@ public abstract class AbstractBaseGraph<V, E>
     {
         if (e == null) {
             throw new NullPointerException();
-        } else if (containsEdge(e)) {
-            return false;
         }
 
         assertVertexExist(sourceVertex);
@@ -248,10 +212,12 @@ public abstract class AbstractBaseGraph<V, E>
             throw new IllegalArgumentException(LOOPS_NOT_ALLOWED);
         }
 
-        intrusiveEdgesSpecifics.add(e, sourceVertex, targetVertex);
-        specifics.addEdgeToTouchingVertices(e);
+        if (intrusiveEdgesSpecifics.add(e, sourceVertex, targetVertex)) {
+            specifics.addEdgeToTouchingVertices(e);
+            return true;
+        }
 
-        return true;
+        return false;
     }
 
     /**
@@ -523,40 +489,12 @@ public abstract class AbstractBaseGraph<V, E>
      * Create the specifics for this graph. Subclasses can override this method in order to adjust
      * the specifics and thus the space-time tradeoffs of the graph implementation.
      * 
-     * @return the specifics used by this graph
-     * @deprecated Use {@link #createSpecifics(boolean)} instead.
-     */
-    @Deprecated
-    protected Specifics<V, E> createSpecifics()
-    {
-        if (this instanceof DirectedGraph<?, ?>) {
-            return new FastLookupDirectedSpecifics<>(this);
-        } else if (this instanceof UndirectedGraph<?, ?>) {
-            return new FastLookupUndirectedSpecifics<>(this);
-        } else {
-            throw new IllegalArgumentException(
-                "must be instance of either DirectedGraph or UndirectedGraph");
-        }
-    }
-
-    /**
-     * Create the specifics for this graph. Subclasses can override this method in order to adjust
-     * the specifics and thus the space-time tradeoffs of the graph implementation.
-     * 
      * @param directed if true the specifics should adjust the behavior to a directed graph
      *        otherwise undirected
      * @return the specifics used by this graph
      */
     protected Specifics<V, E> createSpecifics(boolean directed)
     {
-        /*
-         * Try-catch only for backward-compatibility, remove after next release.
-         */
-        try {
-            return createSpecifics();
-        } catch (IllegalArgumentException ignore) {
-        }
-
         if (directed) {
             return new FastLookupDirectedSpecifics<>(this);
         } else {
@@ -573,9 +511,9 @@ public abstract class AbstractBaseGraph<V, E>
     protected IntrusiveEdgesSpecifics<V, E> createIntrusiveEdgesSpecifics(boolean weighted)
     {
         if (weighted) {
-            return new WeightedIntrusiveEdgesSpecifics<V, E>();
+            return new WeightedIntrusiveEdgesSpecifics<>();
         } else {
-            return new UniformIntrusiveEdgesSpecifics<V, E>();
+            return new UniformIntrusiveEdgesSpecifics<>();
         }
     }
 

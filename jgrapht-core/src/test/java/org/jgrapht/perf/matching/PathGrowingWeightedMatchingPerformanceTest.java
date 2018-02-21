@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2016-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -24,6 +24,7 @@ import org.jgrapht.alg.interfaces.*;
 import org.jgrapht.alg.matching.*;
 import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
+import org.junit.Test;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.*;
 import org.openjdk.jmh.runner.options.*;
@@ -36,7 +37,6 @@ import junit.framework.*;
  * @author Dimitrios Michail
  */
 public class PathGrowingWeightedMatchingPerformanceTest
-    extends TestCase
 {
 
     public static final int PERF_BENCHMARK_VERTICES_COUNT = 1000;
@@ -124,6 +124,7 @@ public class PathGrowingWeightedMatchingPerformanceTest
         }
     }
 
+    @Test
     public void testPathGrowingRandomGraphBenchmark()
         throws RunnerException
     {
@@ -135,7 +136,8 @@ public class PathGrowingWeightedMatchingPerformanceTest
                     .getSimpleName() + ".*")
             .include(".*" + GreedyWeightedMatchingRandomGraphBenchmark.class.getSimpleName() + ".*")
             .include(
-                ".*" + EdmondsMaximumCardinalityMatchingRandomGraphBenchmark.class.getSimpleName() + ".*")
+                ".*" + EdmondsMaximumCardinalityMatchingRandomGraphBenchmark.class.getSimpleName()
+                    + ".*")
             .mode(Mode.SingleShotTime).timeUnit(TimeUnit.MILLISECONDS).warmupIterations(5)
             .measurementIterations(10).forks(1).shouldFailOnError(true).shouldDoGC(true).build();
 

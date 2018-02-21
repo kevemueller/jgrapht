@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by John V Sichi and Contributors.
+ * (C) Copyright 2003-2018, by John V Sichi and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -19,6 +19,9 @@ package org.jgrapht.traverse;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for ClosestFirstIterator.
@@ -34,6 +37,7 @@ public class ClosestFirstIteratorTest
     /**
      * .
      */
+    @Test
     public void testRadius()
     {
         result = new StringBuffer();
@@ -58,6 +62,7 @@ public class ClosestFirstIteratorTest
     /**
      * .
      */
+    @Test
     public void testNoStart()
     {
         result = new StringBuffer();
@@ -102,22 +107,27 @@ public class ClosestFirstIteratorTest
     }
 
     @Override
-    String getExpectedCCStr1() {
+    String getExpectedCCStr1()
+    {
         return "orphan";
     }
 
     @Override
-    String getExpectedCCStr2() {
+    String getExpectedCCStr2()
+    {
         return "orphan,7,9,4,8,2";
     }
 
     @Override
-    String getExpectedCCStr3() {
+    String getExpectedCCStr3()
+    {
         return "orphan,7,9,4,8,2,3,5,6,1";
     }
 
     @Override
-    AbstractGraphIterator<String, DefaultWeightedEdge> createIterator(Graph<String, DefaultWeightedEdge> g, Iterable<String> startVertex) {
+    AbstractGraphIterator<String, DefaultWeightedEdge> createIterator(
+        Graph<String, DefaultWeightedEdge> g, Iterable<String> startVertex)
+    {
         return new ClosestFirstIterator<>(g, startVertex);
     }
 }

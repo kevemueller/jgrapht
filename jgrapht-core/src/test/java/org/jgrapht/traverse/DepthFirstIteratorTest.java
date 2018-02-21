@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Liviu Rau and Contributors.
+ * (C) Copyright 2003-2018, by Liviu Rau and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,12 +17,13 @@
  */
 package org.jgrapht.traverse;
 
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultWeightedEdge;
+import java.util.*;
 
-import java.util.Iterator;
+import org.jgrapht.*;
+import org.jgrapht.graph.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the {@link DepthFirstIteratorTest} class.
@@ -57,28 +58,35 @@ public class DepthFirstIteratorTest
     {
         return "6:4:9:2:8:7:5:3:1:orphan:";
     }
+
     @Override
-    String getExpectedCCStr1() {
+    String getExpectedCCStr1()
+    {
         return "orphan";
     }
 
     @Override
-    String getExpectedCCStr2() {
+    String getExpectedCCStr2()
+    {
         return "orphan,7,9,4,8,2";
     }
 
     @Override
-    String getExpectedCCStr3() {
+    String getExpectedCCStr3()
+    {
         return "orphan,7,9,4,8,2,3,6,1,5";
     }
 
     @Override
-    String getExpectedCCFinishString() {
+    String getExpectedCCFinishString()
+    {
         return "orphan:4:9:2:8:7:1:6:5:3:";
     }
 
     @Override
-    AbstractGraphIterator<String, DefaultWeightedEdge> createIterator(Graph<String, DefaultWeightedEdge> g, Iterable<String> startVertex) {
+    AbstractGraphIterator<String, DefaultWeightedEdge> createIterator(
+        Graph<String, DefaultWeightedEdge> g, Iterable<String> startVertex)
+    {
         return new DepthFirstIterator<>(g, startVertex);
     }
 
@@ -92,11 +100,10 @@ public class DepthFirstIteratorTest
         return i;
     }
 
-
-
     /**
      * See <a href="http://sf.net/projects/jgrapht">Sourceforge bug 1169182</a> for details.
      */
+    @Test
     public void testBug1169182()
     {
         Graph<String, DefaultEdge> dg = new DefaultDirectedGraph<>(DefaultEdge.class);

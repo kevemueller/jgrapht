@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2017, by Alexey Kudinkin and Contributors.
+ * (C) Copyright 2015-2018, by Alexey Kudinkin and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -20,14 +20,15 @@ package org.jgrapht.alg.flow;
 import java.util.*;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.util.IntegerVertexFactory;
+import org.jgrapht.alg.util.*;
 import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
 
 import junit.framework.*;
 
+import static org.junit.Assert.assertTrue;
+
 public abstract class MaximumFlowMinimumCutAlgorithmTestBase
-    extends TestCase
 {
 
     protected Graph<Integer, DefaultWeightedEdge> constructDirectedGraph(

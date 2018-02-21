@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2017, by Joris Kinable and Contributors.
+ * (C) Copyright 2015-2018, by Joris Kinable and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -125,10 +125,10 @@ public class FastLookupDirectedSpecifics<V, E>
 
         Pair<V, V> vertexPair = new Pair<>(source, target);
         ArrayUnenforcedSet<E> edgeSet = touchingVerticesToEdgeMap.get(vertexPair);
-        if(edgeSet != null)
+        if (edgeSet != null)
             edgeSet.add(e);
-        else{
-            edgeSet = new ArrayUnenforcedSet<>();
+        else {
+            edgeSet = new ArrayUnenforcedSet<>(1);
             edgeSet.add(e);
             touchingVerticesToEdgeMap.put(vertexPair, edgeSet);
         }

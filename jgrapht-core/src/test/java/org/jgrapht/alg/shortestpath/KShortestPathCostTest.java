@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2007-2017, by France Telecom and Contributors.
+ * (C) Copyright 2007-2018, by France Telecom and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -21,19 +21,25 @@ import java.io.*;
 import java.util.*;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.*;
+import org.jgrapht.alg.connectivity.BiconnectedGraph;
+import org.jgrapht.alg.connectivity.NotBiconnectedGraph;
 import org.jgrapht.graph.*;
 
 import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @since July 5, 2007
  */
 public class KShortestPathCostTest
-    extends TestCase
 {
     // ~ Methods ----------------------------------------------------------------
 
+    @Test
     public void testKShortestPathCompleteGraph4()
     {
         int nbPaths = 5;
@@ -58,6 +64,7 @@ public class KShortestPathCostTest
             Arrays.asList(new Object[] { graph.eS1, graph.e13 }), pathElement.getEdgeList());
     }
 
+    @Test
     public void testPicture1Graph()
     {
         Picture1Graph picture1Graph = new Picture1Graph();
@@ -98,6 +105,7 @@ public class KShortestPathCostTest
         }
     }
 
+    @Test
     public void testShortestPathsInIncreasingOrder()
     {
         BiconnectedGraph biconnectedGraph = new BiconnectedGraph();
@@ -122,6 +130,7 @@ public class KShortestPathCostTest
         verifyShortestPathsInIncreasingOrderOfWeight(picture1Graph);
     }
 
+    @Test
     public void testShortestPathsWeightsWithMaxSizeIncreases()
     {
         BiconnectedGraph biconnectedGraph = new BiconnectedGraph();

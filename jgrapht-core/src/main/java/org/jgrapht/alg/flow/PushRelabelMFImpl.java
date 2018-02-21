@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2017, by Alexey Kudinkin and Contributors.
+ * (C) Copyright 2015-2018, by Alexey Kudinkin and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -208,8 +208,8 @@ public class PushRelabelMFImpl<V, E>
             for (;;) {
                 for (AnnotatedFlowEdge ex : ux.getOutgoing()) {
                     if (isAdmissible(ex)) {
-                        if ((ex.getTarget().prototype != sink)
-                            && (ex.getTarget().prototype != source))
+                        if ((! ex.getTarget().prototype.equals(sink))
+                            && (! ex.getTarget().prototype.equals(source)))
                         {
                             active.offer(ex.getTarget());
                         }

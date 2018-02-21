@@ -21,17 +21,19 @@ import java.io.*;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
-import org.jgrapht.io.ExportException;
-import org.jgrapht.io.GmlExporter;
 
 import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author John V. Sichi
  * @author Dimitrios Michail
  */
 public class GmlExporterTest
-    extends TestCase
 {
     // ~ Static fields/initializers
     // ---------------------------------------------
@@ -249,6 +251,7 @@ public class GmlExporterTest
     // ~ Methods
     // ----------------------------------------------------------------
 
+    @Test
     public void testUndirected()
         throws UnsupportedEncodingException, ExportException
     {
@@ -266,6 +269,7 @@ public class GmlExporterTest
         assertEquals(UNDIRECTED, res);
     }
 
+    @Test
     public void testUnweightedUndirected()
         throws UnsupportedEncodingException, ExportException
     {
@@ -284,6 +288,7 @@ public class GmlExporterTest
         assertEquals(UNDIRECTED, res);
     }
 
+    @Test
     public void testDirected()
         throws UnsupportedEncodingException, ExportException
     {
@@ -306,6 +311,7 @@ public class GmlExporterTest
         assertEquals(DIRECTED, res);
     }
 
+    @Test
     public void testWeightedUndirected()
         throws UnsupportedEncodingException, ExportException
     {
@@ -327,6 +333,7 @@ public class GmlExporterTest
         assertEquals(UNDIRECTED_WEIGHTED, res);
     }
 
+    @Test
     public void testWeightedUndirectedWithEdgeLabels()
         throws UnsupportedEncodingException, ExportException
     {
@@ -349,6 +356,7 @@ public class GmlExporterTest
         assertEquals(UNDIRECTED_WEIGHTED_WITH_EDGE_LABELS, res);
     }
 
+    @Test
     public void testUndirectedWithVertexLabels()
         throws UnsupportedEncodingException, ExportException
     {
@@ -370,6 +378,7 @@ public class GmlExporterTest
         assertEquals(UNDIRECTED_WITH_VERTEX_LABELS, res);
     }
 
+    @Test
     public void testParameters()
     {
         GmlExporter<String, DefaultWeightedEdge> exporter =

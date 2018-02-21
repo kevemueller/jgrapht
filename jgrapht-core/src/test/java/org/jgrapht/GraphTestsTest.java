@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2016-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,15 +17,15 @@
  */
 package org.jgrapht;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.*;
 
-import org.jgrapht.alg.util.IntegerVertexFactory;
+import org.jgrapht.alg.util.*;
 import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
 import org.junit.*;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Test class GraphTests.
@@ -61,7 +61,7 @@ public class GraphTestsTest
         assertTrue(GraphTests.isSimple(g2));
 
         Graph<Integer, DefaultEdge> g3 = new DirectedPseudograph<>(DefaultEdge.class);
-        assertTrue(GraphTests.isSimple(g1));
+        Assert.assertTrue(GraphTests.isSimple(g3));
 
         Graphs.addAllVertices(g3, Arrays.asList(1, 2));
         g3.addEdge(1, 2);
@@ -84,6 +84,73 @@ public class GraphTestsTest
         assertTrue(GraphTests.isSimple(g4));
         g4.addEdge(1, 1);
         assertFalse(GraphTests.isSimple(g4));
+    }
+
+    @Test
+    public void testHasSelfLoops()
+    {
+        Graph<Integer, DefaultEdge> g1 = new DefaultDirectedGraph<>(DefaultEdge.class);
+        Assert.assertFalse(GraphTests.hasSelfLoops(g1));
+
+        Graph<Integer, DefaultEdge> g2 = new SimpleGraph<>(DefaultEdge.class);
+        Assert.assertFalse(GraphTests.hasSelfLoops(g2));
+
+        Graph<Integer, DefaultEdge> g3 = new DirectedPseudograph<>(DefaultEdge.class);
+        Assert.assertFalse(GraphTests.hasSelfLoops(g3));
+
+        Graphs.addAllVertices(g3, Arrays.asList(1, 2));
+        g3.addEdge(1, 2);
+        g3.addEdge(2, 1);
+        Assert.assertFalse(GraphTests.hasSelfLoops(g3));
+        g3.addEdge(2, 2);
+        Assert.assertTrue(GraphTests.hasSelfLoops(g3));
+
+        Graph<Integer, DefaultEdge> g4 = new Pseudograph<>(DefaultEdge.class);
+        Graphs.addAllVertices(g4, Arrays.asList(1, 2));
+        g4.addEdge(1, 2);
+        g4.addEdge(2, 1);
+        Assert.assertFalse(GraphTests.hasSelfLoops(g4));
+        g4.addEdge(2, 2);
+        Assert.assertTrue(GraphTests.hasSelfLoops(g4));
+    }
+
+    @Test
+    public void testHasMultipleEdges()
+    {
+        Graph<Integer, DefaultEdge> g1 = new DefaultDirectedGraph<>(DefaultEdge.class);
+        Assert.assertFalse(GraphTests.hasMultipleEdges(g1));
+
+        Graph<Integer, DefaultEdge> g2 = new SimpleGraph<>(DefaultEdge.class);
+        Assert.assertFalse(GraphTests.hasMultipleEdges(g2));
+
+        Graph<Integer, DefaultEdge> g3 = new DirectedPseudograph<>(DefaultEdge.class);
+        Assert.assertFalse(GraphTests.hasMultipleEdges(g3));
+        Graphs.addAllVertices(g3, Arrays.asList(1, 2));
+        g3.addEdge(1, 2);
+        g3.addEdge(2, 1);
+        g3.addEdge(1, 1);
+        Assert.assertFalse(GraphTests.hasMultipleEdges(g3));
+        g3.addEdge(2, 2);
+        Assert.assertFalse(GraphTests.hasMultipleEdges(g3));
+        g3.addEdge(2, 1);
+        Assert.assertTrue(GraphTests.hasMultipleEdges(g3));
+
+        Graph<Integer, DefaultEdge> g4 = new Pseudograph<>(DefaultEdge.class);
+        Graphs.addAllVertices(g4, Arrays.asList(1, 2));
+        g4.addEdge(1, 2);
+        g4.addEdge(1, 1);
+        Assert.assertFalse(GraphTests.hasMultipleEdges(g4));
+        g4.addEdge(2, 1);
+        Assert.assertTrue(GraphTests.hasMultipleEdges(g4));
+
+        Graph<Integer, DefaultEdge> g5 = new Pseudograph<>(DefaultEdge.class);
+        Graphs.addAllVertices(g5, Arrays.asList(1, 2));
+        g5.addEdge(1, 2);
+        g5.addEdge(1, 1);
+        Assert.assertFalse(GraphTests.hasMultipleEdges(g5));
+        g5.addEdge(1, 1);
+        Assert.assertTrue(GraphTests.hasMultipleEdges(g5));
+
     }
 
     @Test
@@ -250,82 +317,88 @@ public class GraphTestsTest
     }
 
     @Test
-    public void testIsForest1(){
+    public void testIsForest1()
+    {
         Graph<Integer, DefaultEdge> g = new Pseudograph<>(DefaultEdge.class);
         assertFalse(GraphTests.isForest(g));
         g.addVertex(1);
         assertTrue(GraphTests.isForest(g));
         g.addVertex(2);
         assertTrue(GraphTests.isForest(g));
-        g.addEdge(1,2);
+        g.addEdge(1, 2);
         assertTrue(GraphTests.isForest(g));
         g.addEdge(1, 2);
         assertFalse(GraphTests.isForest(g));
     }
 
     @Test
-    public void testIsForest2(){
+    public void testIsForest2()
+    {
         Graph<Integer, DefaultEdge> g = new Pseudograph<>(DefaultEdge.class);
-        StarGraphGenerator<Integer, DefaultEdge> gen=new StarGraphGenerator<>(10);
-        IntegerVertexFactory factory=new IntegerVertexFactory();
+        StarGraphGenerator<Integer, DefaultEdge> gen = new StarGraphGenerator<>(10);
+        IntegerVertexFactory factory = new IntegerVertexFactory();
         gen.generateGraph(g, factory, null);
         gen.generateGraph(g, factory, null);
         assertTrue(GraphTests.isForest(g));
     }
 
     @Test
-    public void testIsOverfull(){
+    public void testIsOverfull()
+    {
         assertFalse(GraphTests.isOverfull(NamedGraphGenerator.clawGraph()));
         assertTrue(GraphTests.isOverfull(NamedGraphGenerator.doyleGraph()));
 
         Graph<Integer, DefaultEdge> k6 = new Pseudograph<>(DefaultEdge.class);
-        CompleteGraphGenerator<Integer, DefaultEdge> gen=new CompleteGraphGenerator<>(6);
+        CompleteGraphGenerator<Integer, DefaultEdge> gen = new CompleteGraphGenerator<>(6);
         gen.generateGraph(k6, new IntegerVertexFactory(), null);
         assertFalse(GraphTests.isOverfull(k6));
 
         Graph<Integer, DefaultEdge> k7 = new Pseudograph<>(DefaultEdge.class);
-        gen=new CompleteGraphGenerator<>(7);
+        gen = new CompleteGraphGenerator<>(7);
         gen.generateGraph(k7, new IntegerVertexFactory(), null);
         assertTrue(GraphTests.isOverfull(k7));
     }
 
     @Test
-    public void isSplit1(){
+    public void isSplit1()
+    {
         assertFalse(GraphTests.isSplit(NamedGraphGenerator.petersenGraph()));
         Graph<Integer, DefaultEdge> g = new Pseudograph<>(DefaultEdge.class);
         assertFalse(GraphTests.isSplit(g));
         g.addVertex(0);
         assertTrue(GraphTests.isSplit(g));
-        Graphs.addAllVertices(g, Arrays.asList(1,2,3,4));
-        //clique
-        g.addEdge(0,1);
-        g.addEdge(1,2);
-        g.addEdge(2,0);
-        //independent set
-        g.addEdge(3,1);
-        g.addEdge(3,2);
-        g.addEdge(4,1);
+        Graphs.addAllVertices(g, Arrays.asList(1, 2, 3, 4));
+        // clique
+        g.addEdge(0, 1);
+        g.addEdge(1, 2);
+        g.addEdge(2, 0);
+        // independent set
+        g.addEdge(3, 1);
+        g.addEdge(3, 2);
+        g.addEdge(4, 1);
         assertTrue(GraphTests.isSplit(g));
-        g.addEdge(3,4);
+        g.addEdge(3, 4);
         assertTrue(GraphTests.isSplit(g));
     }
 
     @Test
-    public void isSplit2(){
-        //Create some random split graphs.
+    public void isSplit2()
+    {
+        // Create some random split graphs.
         Random rand = new Random(0);
-        CompleteGraphGenerator<Integer, DefaultEdge> gen=new CompleteGraphGenerator<>(6);
+        CompleteGraphGenerator<Integer, DefaultEdge> gen = new CompleteGraphGenerator<>(6);
 
-        for(int inst=0; inst<5; inst++) {
-            //1. create a clique
+        for (int inst = 0; inst < 5; inst++) {
+            // 1. create a clique
             Graph<Integer, DefaultEdge> g = new SimpleGraph<>(DefaultEdge.class);
             gen.generateGraph(g, new IntegerVertexFactory(0), null);
 
-            //2. add a number of vertices (the independent set) and connect some of these vertices with vertices in the clique.
-            for(int j=6; j<12; j++){
+            // 2. add a number of vertices (the independent set) and connect some of these vertices
+            // with vertices in the clique.
+            for (int j = 6; j < 12; j++) {
                 g.addVertex(j);
-                for(int i=0; i<6; i++)
-                    if(rand.nextBoolean())
+                for (int i = 0; i < 6; i++)
+                    if (rand.nextBoolean())
                         g.addEdge(i, j);
             }
             assertTrue(GraphTests.isSplit(g));
@@ -448,9 +521,10 @@ public class GraphTestsTest
     }
 
     @Test
-    public void testIsCubic(){
+    public void testIsCubic()
+    {
         assertTrue(GraphTests.isCubic(NamedGraphGenerator.petersenGraph()));
-        Graph<Integer, DefaultEdge> triangle=new SimpleGraph<>(DefaultEdge.class);
+        Graph<Integer, DefaultEdge> triangle = new SimpleGraph<>(DefaultEdge.class);
         Graphs.addEdgeWithVertices(triangle, 1, 2);
         Graphs.addEdgeWithVertices(triangle, 2, 3);
         Graphs.addEdgeWithVertices(triangle, 3, 1);

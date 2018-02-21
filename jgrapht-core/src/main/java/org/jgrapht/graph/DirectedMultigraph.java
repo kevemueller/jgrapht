@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -22,7 +22,7 @@ import org.jgrapht.graph.builder.*;
 
 /**
  * A directed multigraph. A directed multigraph is a non-simple directed graph in which no loops are
- * permitted, but multiple edges between any two vertices are.
+ * permitted, but multiple (parallel) edges between any two vertices are.
  * 
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
@@ -30,7 +30,6 @@ import org.jgrapht.graph.builder.*;
  */
 public class DirectedMultigraph<V, E>
     extends AbstractBaseGraph<V, E>
-    implements DirectedGraph<V, E>
 {
     private static final long serialVersionUID = 2919338637676573948L;
 
@@ -91,40 +90,6 @@ public class DirectedMultigraph<V, E>
         EdgeFactory<V, E> ef)
     {
         return new GraphBuilder<>(new DirectedMultigraph<>(ef));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param edgeClass class on which to base factory for edges
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(Class)}.
-     */
-    @Deprecated
-    public static <V,
-        E> DirectedGraphBuilderBase<V, E, ? extends DirectedMultigraph<V, E>, ?> builder(
-            Class<? extends E> edgeClass)
-    {
-        return new DirectedGraphBuilder<>(new DirectedMultigraph<>(edgeClass));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param ef the edge factory of the new graph
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(EdgeFactory)}.
-     */
-    @Deprecated
-    public static <V,
-        E> DirectedGraphBuilderBase<V, E, ? extends DirectedMultigraph<V, E>, ?> builder(
-            EdgeFactory<V, E> ef)
-    {
-        return new DirectedGraphBuilder<>(new DirectedMultigraph<>(ef));
     }
 }
 

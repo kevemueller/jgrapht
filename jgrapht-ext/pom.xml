@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jgrapht</groupId>
 		<artifactId>jgrapht</artifactId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>jgrapht-ext</artifactId>
 	<name>JGraphT - Ext</name>
@@ -37,8 +36,7 @@
 				</executions>
 				<configuration>
 					<transformers>
-						<transformer
-							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 							<manifestEntries>
 								<!-- Use unique OSGi bundle symbolic name for uber artifact. Otherwise 
 									e.g. jgrapht-ext-1.0.0.jar and jgrapht-ext-1.0.0-uber.jar could not be deployed 
@@ -81,6 +79,7 @@
 				</executions>
 				<configuration>
 					<instructions>
+						<Automatic-Module-Name>org.jgrapht.ext</Automatic-Module-Name>
 						<Bundle-Vendor>Barak Naveh, John V. Sichi and contributors (see
 							http://sourceforge.net/projects/jgrapht/)</Bundle-Vendor>
 						<!-- JGraph (source code at https://github.com/jgraph/legacy-jgraph5.git) 
@@ -102,10 +101,6 @@
 			<artifactId>jgrapht-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jgrapht-io</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.tinyjee.jgraphx</groupId>
 			<artifactId>jgraphx</artifactId>
 			<version>2.0.0.1</version>
@@ -114,10 +109,6 @@
 			<groupId>jgraph</groupId>
 			<artifactId>jgraph</artifactId>
 			<version>5.13.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>xmlunit</groupId>
-			<artifactId>xmlunit</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

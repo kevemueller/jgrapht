@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2017-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -19,17 +19,13 @@ package org.jgrapht.alg.clique;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
-import org.jgrapht.Graph;
-import org.jgrapht.generate.GnpRandomGraphGenerator;
-import org.jgrapht.generate.GraphGenerator;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.alg.util.IntegerVertexFactory;
-import org.jgrapht.graph.SimpleGraph;
-import org.junit.Test;
+import org.jgrapht.*;
+import org.jgrapht.alg.util.*;
+import org.jgrapht.generate.*;
+import org.jgrapht.graph.*;
+import org.junit.*;
 
 /**
  * Test that all Bron-Kerbosch variants return the same results.
