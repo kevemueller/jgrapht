@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jgrapht</groupId>
 		<artifactId>jgrapht</artifactId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>jgrapht-demo</artifactId>
 	<name>JGraphT - Demo</name>
@@ -32,6 +32,9 @@
 							<mainClass>org.jgrapht.demo.JGraphAdapterDemo</mainClass>
 							<addClasspath>true</addClasspath>
 						</manifest>
+						<manifestEntries>
+							<Automatic-Module-Name>org.jgrapht.demo</Automatic-Module-Name>
+						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>

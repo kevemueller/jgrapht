@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -21,9 +21,9 @@ import org.jgrapht.*;
 import org.jgrapht.graph.builder.*;
 
 /**
- * A directed weighted graph. A directed weighted graph is a non-simple directed graph in which
- * multiple edges between any two vertices are <i>not</i> permitted, but loops are. The graph has
- * weights on its edges.
+ * The default implementation of a directed weighted graph. A default directed weighted graph is a
+ * non-simple directed graph in which multiple (parallel) edges between any two vertices are
+ * <i>not</i> permitted, but loops are. The graph has weights on its edges.
  *
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
@@ -32,7 +32,6 @@ import org.jgrapht.graph.builder.*;
  */
 public class DefaultDirectedWeightedGraph<V, E>
     extends DefaultDirectedGraph<V, E>
-    implements WeightedGraph<V, E>, DirectedGraph<V, E>
 {
     private static final long serialVersionUID = -4867672646995721544L;
 
@@ -84,38 +83,6 @@ public class DefaultDirectedWeightedGraph<V, E>
             EdgeFactory<V, E> ef)
     {
         return new GraphBuilder<>(new DefaultDirectedWeightedGraph<>(ef));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param edgeClass class on which to base factory for edges
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(Class)}.
-     */
-    @Deprecated
-    public static <V, E> DirectedWeightedGraphBuilderBase<V, E,
-        ? extends DefaultDirectedWeightedGraph<V, E>, ?> builder(Class<? extends E> edgeClass)
-    {
-        return new DirectedWeightedGraphBuilder<>(new DefaultDirectedWeightedGraph<>(edgeClass));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param ef the edge factory of the new graph
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(EdgeFactory)}.
-     */
-    @Deprecated
-    public static <V, E> DirectedWeightedGraphBuilderBase<V, E,
-        ? extends DefaultDirectedWeightedGraph<V, E>, ?> builder(EdgeFactory<V, E> ef)
-    {
-        return new DirectedWeightedGraphBuilder<>(new DefaultDirectedWeightedGraph<>(ef));
     }
 }
 

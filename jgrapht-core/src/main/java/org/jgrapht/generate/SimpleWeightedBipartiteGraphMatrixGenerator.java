@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2016-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -28,7 +28,6 @@ import org.jgrapht.*;
  * @param <E> the graph edge type
  */
 public class SimpleWeightedBipartiteGraphMatrixGenerator<V, E>
-    extends WeightedGraphGeneratorAdapter<V, E, V>
     implements GraphGenerator<V, E, V>
 {
     protected List<V> first;
@@ -105,19 +104,6 @@ public class SimpleWeightedBipartiteGraphMatrixGenerator<V, E>
                 target.setEdgeWeight(target.addEdge(first.get(i), second.get(j)), weights[i][j]);
             }
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @deprecated Not needed since {@link WeightedGraph} is deprecated.
-     */
-    @Override
-    @Deprecated
-    public void generateGraph(
-        WeightedGraph<V, E> target, VertexFactory<V> vertexFactory, Map<String, V> resultMap)
-    {
-        generateGraph((Graph<V, E>) target, vertexFactory, resultMap);
     }
 }
 

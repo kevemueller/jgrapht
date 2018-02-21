@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Linda Buisman and Contributors.
+ * (C) Copyright 2003-2018, by Linda Buisman and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -75,7 +75,7 @@ public class EdgeBasedTwoApproxVCImpl<V, E>
         Set<V> cover = new LinkedHashSet<>();
 
         // G'=(V',E') <-- G(V,E)
-        Graph<V,E> sg = new AsSubgraph<>(graph, null, null);
+        Graph<V, E> sg = new AsSubgraph<>(graph, null, null);
 
         // while E' is non-empty
         while (!sg.edgeSet().isEmpty()) {

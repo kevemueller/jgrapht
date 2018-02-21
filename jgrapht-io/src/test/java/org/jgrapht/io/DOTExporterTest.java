@@ -22,14 +22,12 @@ import java.util.*;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
-import org.jgrapht.io.ComponentAttributeProvider;
-import org.jgrapht.io.ComponentNameProvider;
-import org.jgrapht.io.DOTExporter;
-import org.jgrapht.io.ExportException;
-import org.jgrapht.io.IntegerComponentNameProvider;
-import org.jgrapht.io.StringComponentNameProvider;
 
 import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * .
@@ -37,7 +35,6 @@ import junit.framework.*;
  * @author Trevor Harmon
  */
 public class DOTExporterTest
-    extends TestCase
 {
     // ~ Static fields/initializers ---------------------------------------------
 
@@ -65,6 +62,7 @@ public class DOTExporterTest
 
     // ~ Methods ----------------------------------------------------------------
 
+    @Test
     public void testUndirected()
         throws UnsupportedEncodingException, ExportException
     {
@@ -86,15 +84,15 @@ public class DOTExporterTest
             new ComponentAttributeProvider<String>()
             {
                 @Override
-                public Map<String, String> getComponentAttributes(String v)
+                public Map<String, Attribute> getComponentAttributes(String v)
                 {
-                    Map<String, String> map = new LinkedHashMap<>();
+                    Map<String, Attribute> map = new LinkedHashMap<>();
                     switch (v) {
                     case V1:
-                        map.put("label", "a");
+                        map.put("label", DefaultAttribute.createAttribute("a"));
                         break;
                     case V2:
-                        map.put("x", "y");
+                        map.put("x", DefaultAttribute.createAttribute("y"));
                         break;
                     default:
                         map = null;
@@ -136,6 +134,7 @@ public class DOTExporterTest
             res);
     }
 
+    @Test
     public void testValidNodeIDs()
         throws ExportException
     {
@@ -164,6 +163,7 @@ public class DOTExporterTest
         }
     }
 
+    @Test
     public void testDifferentGraphID()
         throws UnsupportedEncodingException, ExportException
     {

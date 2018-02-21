@@ -21,11 +21,11 @@ import java.io.*;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
-import org.jgrapht.io.ExportException;
-import org.jgrapht.io.GraphExporter;
-import org.jgrapht.io.MatrixExporter;
 
 import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * .
@@ -33,7 +33,6 @@ import junit.framework.*;
  * @author Charles Fry
  */
 public class MatrixExporterTest
-    extends TestCase
 {
     // ~ Static fields/initializers ---------------------------------------------
 
@@ -57,6 +56,7 @@ public class MatrixExporterTest
 
     // ~ Methods ----------------------------------------------------------------
 
+    @Test
     public void testLaplacian()
         throws ExportException
     {
@@ -80,6 +80,7 @@ public class MatrixExporterTest
         assertEquals(NORMALIZED_LAPLACIAN, w2.toString());
     }
 
+    @Test
     public void testAdjacencyUndirected()
         throws ExportException
     {
@@ -97,6 +98,7 @@ public class MatrixExporterTest
         assertEquals(UNDIRECTED_ADJACENCY, w.toString());
     }
 
+    @Test
     public void testAdjacencyDirected()
         throws ExportException
     {

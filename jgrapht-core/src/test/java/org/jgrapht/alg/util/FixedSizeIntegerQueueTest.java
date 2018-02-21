@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017-2017, by Joris Kinable and Contributors.
+ * (C) Copyright 2017-2018, by Joris Kinable and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,16 +17,25 @@
  */
 package org.jgrapht.alg.util;
 
-import junit.framework.TestCase;
+import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for FixedSizeIntegerQueue
+ * 
  * @author Joris Kinable
  */
-public class FixedSizeIntegerQueueTest extends TestCase {
+public class FixedSizeIntegerQueueTest
+{
 
-    public void testQueue(){
-        FixedSizeIntegerQueue queue=new FixedSizeIntegerQueue(10);
+    @Test
+    public void testQueue()
+    {
+        FixedSizeIntegerQueue queue = new FixedSizeIntegerQueue(10);
         assertTrue(queue.isEmpty());
         assertEquals(0, queue.size());
 
@@ -34,8 +43,8 @@ public class FixedSizeIntegerQueueTest extends TestCase {
         assertFalse(queue.isEmpty());
         assertEquals(1, queue.size());
 
-        int v=queue.poll();
-        assertEquals(1,v);
+        int v = queue.poll();
+        assertEquals(1, v);
         assertTrue(queue.isEmpty());
         assertEquals(0, queue.size());
 

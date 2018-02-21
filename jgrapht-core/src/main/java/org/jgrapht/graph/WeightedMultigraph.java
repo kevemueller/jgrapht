@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -22,7 +22,7 @@ import org.jgrapht.graph.builder.*;
 
 /**
  * A weighted multigraph. A weighted multigraph is a non-simple undirected graph in which no loops
- * are permitted, but multiple edges between any two vertices are. The edges of a weighted
+ * are permitted, but multiple (parallel) edges between any two vertices are. The edges of a weighted
  * multigraph have weights. If you're unsure about multigraphs, see:
  * <a href="http://mathworld.wolfram.com/Multigraph.html">
  * http://mathworld.wolfram.com/Multigraph.html</a>.
@@ -32,7 +32,6 @@ import org.jgrapht.graph.builder.*;
  */
 public class WeightedMultigraph<V, E>
     extends Multigraph<V, E>
-    implements UndirectedGraph<V, E>, WeightedGraph<V, E>
 {
     private static final long serialVersionUID = -6009321659287373874L;
 
@@ -82,40 +81,6 @@ public class WeightedMultigraph<V, E>
         EdgeFactory<V, E> ef)
     {
         return new GraphBuilder<>(new WeightedMultigraph<>(ef));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param edgeClass class on which to base factory for edges
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(Class)}.
-     */
-    @Deprecated
-    public static <V,
-        E> UndirectedWeightedGraphBuilderBase<V, E, ? extends WeightedMultigraph<V, E>, ?> builder(
-            Class<? extends E> edgeClass)
-    {
-        return new UndirectedWeightedGraphBuilder<>(new WeightedMultigraph<>(edgeClass));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param ef the edge factory of the new graph
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(EdgeFactory)}.
-     */
-    @Deprecated
-    public static <V,
-        E> UndirectedWeightedGraphBuilderBase<V, E, ? extends WeightedMultigraph<V, E>, ?> builder(
-            EdgeFactory<V, E> ef)
-    {
-        return new UndirectedWeightedGraphBuilder<>(new WeightedMultigraph<>(ef));
     }
 }
 

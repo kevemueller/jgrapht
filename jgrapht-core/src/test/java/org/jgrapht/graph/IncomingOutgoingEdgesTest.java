@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2017-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2017-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -19,11 +19,10 @@ package org.jgrapht.graph;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
-import org.jgrapht.Graph;
-import org.junit.Test;
+import org.jgrapht.*;
+import org.junit.*;
 
 /**
  * Check Incoming/Outgoing edges in directed and undirected graphs.

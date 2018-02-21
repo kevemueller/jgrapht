@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -93,7 +93,7 @@ public class AsSubgraph<V, E>
     implements Serializable
 {
     private static final long serialVersionUID = -1471811754881775298L;
-    
+
     private static final String NO_SUCH_EDGE_IN_BASE = "no such edge in base graph";
     private static final String NO_SUCH_VERTEX_IN_BASE = "no such vertex in base graph";
 
@@ -146,7 +146,7 @@ public class AsSubgraph<V, E>
 
     /**
      * Creates a new induced Subgraph with all vertices included. The subgraph will keep track of
-     * edges being added to its vertex subset as well as deletion of edges and vertices. If base it
+     * edges being added to its vertex subset as well as deletion of edges and vertices. If base is
      * not listenable, this is identical to the call Subgraph(base, null, null).
      *
      * @param base the base (backing) graph on which the subgraph will be based.

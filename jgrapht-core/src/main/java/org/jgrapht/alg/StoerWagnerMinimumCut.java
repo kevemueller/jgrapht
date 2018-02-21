@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2011-2017, by Robby McKilliam, Ernst de Ridder and Contributors.
+ * (C) Copyright 2011-2018, by Robby McKilliam, Ernst de Ridder and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -52,7 +52,7 @@ public class StoerWagnerMinimumCut<V, E>
     public StoerWagnerMinimumCut(Graph<V, E> graph)
     {
         GraphTests.requireUndirected(graph, "Graph must be undirected");
-        
+
         if (graph.vertexSet().size() < 2) {
             throw new IllegalArgumentException("Graph has less than 2 vertices");
         }

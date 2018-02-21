@@ -39,7 +39,8 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public final class MultiShortestPathsStringDWETest
-    extends AbstractMultiShortestPathsTest<String, DefaultWeightedEdge>
+    extends
+    AbstractMultiShortestPathsTest<String, DefaultWeightedEdge>
 {
 
     /**

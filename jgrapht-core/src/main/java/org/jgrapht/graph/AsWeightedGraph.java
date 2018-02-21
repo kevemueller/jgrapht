@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2007-2017, by Lucas J Scharenbroich and Contributors.
+ * (C) Copyright 2007-2018, by Lucas J Scharenbroich and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -55,10 +55,9 @@ import org.jgrapht.*;
  */
 public class AsWeightedGraph<V, E>
     extends GraphDelegator<V, E>
-    implements WeightedGraph<V, E>, Serializable
-{
+    implements Serializable, Graph<V, E> {
     private static final long serialVersionUID = 6408608293216853184L;
-    
+
     private final Map<E, Double> weightMap;
 
     /**

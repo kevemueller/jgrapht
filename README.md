@@ -1,16 +1,17 @@
 [![Build Status](https://travis-ci.org/jgrapht/jgrapht.svg?branch=master)](https://travis-ci.org/jgrapht/jgrapht)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.jgrapht/jgrapht/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22jgrapht%22)
+[![Snapshot](https://img.shields.io/nexus/s/https/oss.sonatype.org/org.jgrapht/jgrapht.svg)](https://oss.sonatype.org/content/repositories/snapshots/org/jgrapht/jgrapht-core)
 [![License](https://img.shields.io/badge/license-LGPL%202.1-blue.svg)](http://www.gnu.org/licenses/lgpl-2.1.html)
 [![License](https://img.shields.io/badge/license-EPL%201.0-blue.svg)](http://www.eclipse.org/org/documents/epl-v10.php)
 [![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
 
 # JGraphT
 
-Released: January 17, 2017</p>
+Released: November 10, 2017</p>
 
 Written by [Barak Naveh](mailto:barak_naveh@users.sourceforge.net)  and Contributors
 
-(C) Copyright 2003-2017, by Barak Naveh and Contributors. All rights
+(C) Copyright 2003-2018, by Barak Naveh and Contributors. All rights
 reserved.
 
 Please address all contributions, suggestions, and inquiries to the [user mailing list](https://lists.sourceforge.net/lists/listinfo/jgrapht-users)
@@ -53,6 +54,8 @@ Please refer to the license for details.
 - `jgrapht-demo-x.y.z.jar` demo classes
 - `jgrapht-ext-x.y.z.jar` extensions
 - `jgrapht-ext-x.y.z-uber.jar` all libraries rolled into one
+- `jgrapht-io-x.y.z.jar` Importers/Exporters for various graph formats
+- `jgrapht-io-x.y.z-uber.jar` all libraries rolled into one
 - `jgraph-a.b.c.jar` JGraph dependency library
 - `jgraphx-a.b.c.jar` JGraphX dependency library
 - `source/` complete source tree used to build this release
@@ -72,7 +75,33 @@ Starting from 0.9.0, every JGraphT release is published to the Maven Central Rep
 ```
   <groupId>org.jgrapht</groupId>
   <artifactId>jgrapht-core</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
+```
+
+We have also started auto-publishing SNAPSHOT builds for every successful commit to master.  To use the bleeding edge:
+
+```
+  <groupId>org.jgrapht</groupId>
+  <artifactId>jgrapht-core</artifactId>
+  <version>1.1.1-SNAPSHOT</version>
+```
+
+and make sure the snapshot repository is enabled:
+
+```
+<repositories>
+  <repository>
+    <id>maven-snapshots</id>
+    <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+    <layout>default</layout>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+</repositories>
 ```
 
 ## Upgrading Versions ##
@@ -97,7 +126,7 @@ A local copy of the Javadoc HTML files is included in this distribution. The lat
 - [JGraph](http://sourceforge.net/projects/jgraph) is a graph visualization and editing component. You need JGraph only if you want to create graph visualizations using the JGraphT-to-JGraph adapter. JGraph is licensed     under the terms of the GNU Lesser General Public License (LGPL). 
 - [JGraphX](http://www.jgraph.com/jgraph.html) is the successor to JGraph. You need JGraphX only if you want to use the JGraphXAdapter to visualize the JGraphT graph interactively via JGraphX. JGraphX is licensed under the terms of the BSD license.
 - [Touchgraph](http://sourceforge.net/projects/touchgraph) is a graph visualization and layout component. You need Touchgraph only if you want to create graph visualizations using the JGraphT-to-Touchgraph converter. Touchgraph is licensed under the terms of an Apache-style License.
-- [ANTLR](http://www.antlr.org) is a parser generator.  It is used for reading text files containing graph representations, and is only required by the jgrapht-ext module.  ANTLR v4 is licensed under the terms of the [BSD license](http://www.antlr.org/license.html).
+- [ANTLR](http://www.antlr.org) is a parser generator.  It is used for reading text files containing graph representations, and is only required by the jgrapht-io module.  ANTLR v4 is licensed under the terms of the [BSD license](http://www.antlr.org/license.html).
 
 ## Online Resources ##
 

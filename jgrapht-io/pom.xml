@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jgrapht</groupId>
 		<artifactId>jgrapht</artifactId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>jgrapht-io</artifactId>
 	<name>JGraphT - I/O</name>
@@ -81,6 +81,7 @@
 				</executions>
 				<configuration>
 					<instructions>
+						<Automatic-Module-Name>org.jgrapht.io</Automatic-Module-Name>
 						<Bundle-Vendor>Barak Naveh, John V. Sichi and contributors (see
 							http://sourceforge.net/projects/jgrapht/)</Bundle-Vendor>
 					</instructions>
@@ -89,7 +90,7 @@
 			<plugin>
 				<groupId>org.antlr</groupId>
 				<artifactId>antlr4-maven-plugin</artifactId>
-				<version>4.6</version>
+				<version>4.7</version>
 				<executions>
 					<execution>
 						<id>antlr</id>
@@ -171,8 +172,8 @@
 			<artifactId>jgrapht-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>xmlunit</groupId>
-			<artifactId>xmlunit</artifactId>
+			<groupId>org.xmlunit</groupId>
+			<artifactId>xmlunit-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -181,7 +182,7 @@
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
-			<version>4.6</version>
+			<version>4.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

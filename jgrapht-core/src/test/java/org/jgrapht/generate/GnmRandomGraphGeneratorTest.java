@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2005-2017, by Assaf Lehr, Dimitrios Michail and Contributors.
+ * (C) Copyright 2005-2018, by Assaf Lehr, Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,19 +17,17 @@
  */
 package org.jgrapht.generate;
 
-import java.util.*;
-
-import org.jgrapht.*;
-import org.jgrapht.alg.util.IntegerVertexFactory;
-import org.jgrapht.graph.*;
-import org.jgrapht.util.TypeUtil;
-
-import junit.framework.*;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.*;
+
+import org.jgrapht.*;
+import org.jgrapht.alg.util.*;
+import org.jgrapht.graph.*;
+import org.jgrapht.util.*;
+import org.junit.*;
 
 /**
  * .

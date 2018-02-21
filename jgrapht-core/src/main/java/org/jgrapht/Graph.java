@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -458,8 +458,8 @@ public interface Graph<V, E>
 
     /**
      * Get the graph type. The graph type can be used to query for additional metadata such as
-     * whether the graph supports directed or undirected edges, self-loops, parallel-edges, weights,
-     * etc.
+     * whether the graph supports directed or undirected edges, self-loops, multiple (parallel)
+     * edges, weights, etc.
      * 
      * @return the graph type
      */

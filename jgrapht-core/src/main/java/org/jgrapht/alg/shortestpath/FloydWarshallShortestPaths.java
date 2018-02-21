@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2009-2017, by Tom Larkworthy and Contributors.
+ * (C) Copyright 2009-2018, by Tom Larkworthy and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -28,10 +28,10 @@ import org.jgrapht.util.*;
  * 
  * <p>
  * The <a href="http://en.wikipedia.org/wiki/Floyd-Warshall_algorithm"> Floyd-Warshall algorithm</a>
- * finds all shortest paths (all $n^2$ of them) in $O(n^3)$ time. Note that during construction time,
- * no computations are performed! All computations are
- * performed the first time one of the member methods of this class is invoked. The results are
- * stored, so all subsequent calls to the same method are computationally efficient.
+ * finds all shortest paths (all $n^2$ of them) in $O(n^3)$ time. Note that during construction
+ * time, no computations are performed! All computations are performed the first time one of the
+ * member methods of this class is invoked. The results are stored, so all subsequent calls to the
+ * same method are computationally efficient.
  * 
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
@@ -47,7 +47,6 @@ public class FloydWarshallShortestPaths<V, E>
     private final List<V> vertices;
     private final Map<V, Integer> vertexIndices;
 
-    private double diameter = Double.NaN;
     private double[][] d = null;
     private Object[][] backtrace = null;
     private Object[][] lastHopMatrix = null;
@@ -78,7 +77,7 @@ public class FloydWarshallShortestPaths<V, E>
         lazyCalculateMatrix();
 
         // count shortest paths
-        int n=vertices.size();
+        int n = vertices.size();
         int nShortestPaths = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -89,35 +88,6 @@ public class FloydWarshallShortestPaths<V, E>
         }
 
         return nShortestPaths;
-    }
-
-    /**
-     * Compute the diameter of the graph.
-     * 
-     * @return the diameter (longest of all the shortest paths) computed for the graph. If the graph
-     *         contains no vertices, return {@link Double#NaN}. If there is no path between any two
-     *         vertices, return {@link Double#POSITIVE_INFINITY}.
-     * @deprecated deprecated in favor of {@link GraphMeasurer#getDiameter()}
-     */
-    @Deprecated
-    public double getDiameter()
-    {
-        lazyCalculateMatrix();
-
-        if (!Double.isNaN(diameter)) {
-            return diameter;
-        }
-
-        int n = vertices.size();
-        if (n > 0) {
-            diameter = 0.0;
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    diameter = Double.max(diameter, d[i][j]);
-                }
-            }
-        }
-        return diameter;
     }
 
     /**

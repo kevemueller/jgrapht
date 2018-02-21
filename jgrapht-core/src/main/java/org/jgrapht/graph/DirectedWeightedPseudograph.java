@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2003-2017, by Barak Naveh and Contributors.
+ * (C) Copyright 2003-2018, by Barak Naveh and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -22,7 +22,7 @@ import org.jgrapht.graph.builder.*;
 
 /**
  * A directed weighted pseudograph. A directed weighted pseudograph is a non-simple directed graph
- * in which both graph loops and multiple edges are permitted, and edges have weights.
+ * in which both graph loops and multiple (parallel) edges are permitted, and edges have weights.
  * 
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
@@ -30,7 +30,6 @@ import org.jgrapht.graph.builder.*;
  */
 public class DirectedWeightedPseudograph<V, E>
     extends DirectedPseudograph<V, E>
-    implements DirectedGraph<V, E>, WeightedGraph<V, E>
 {
     private static final long serialVersionUID = -4775269773843490859L;
 
@@ -82,38 +81,6 @@ public class DirectedWeightedPseudograph<V, E>
             EdgeFactory<V, E> ef)
     {
         return new GraphBuilder<>(new DirectedWeightedPseudograph<>(ef));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param edgeClass class on which to base factory for edges
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(Class)}.
-     */
-    @Deprecated
-    public static <V, E> DirectedWeightedGraphBuilderBase<V, E,
-        ? extends DirectedWeightedPseudograph<V, E>, ?> builder(Class<? extends E> edgeClass)
-    {
-        return new DirectedWeightedGraphBuilder<>(new DirectedWeightedPseudograph<>(edgeClass));
-    }
-
-    /**
-     * Create a builder for this kind of graph.
-     * 
-     * @param ef the edge factory of the new graph
-     * @param <V> the graph vertex type
-     * @param <E> the graph edge type
-     * @return a builder for this kind of graph
-     * @deprecated In favor of {@link #createBuilder(EdgeFactory)}.
-     */
-    @Deprecated
-    public static <V, E> DirectedWeightedGraphBuilderBase<V, E,
-        ? extends DirectedWeightedPseudograph<V, E>, ?> builder(EdgeFactory<V, E> ef)
-    {
-        return new DirectedWeightedGraphBuilder<>(new DirectedWeightedPseudograph<>(ef));
     }
 }
 

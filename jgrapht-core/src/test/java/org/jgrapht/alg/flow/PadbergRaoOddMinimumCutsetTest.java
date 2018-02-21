@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Joris Kinable and Contributors.
+ * (C) Copyright 2016-2018, by Joris Kinable and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -21,12 +21,17 @@ import java.util.*;
 import java.util.stream.*;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.*;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.alg.util.IntegerVertexFactory;
 import org.jgrapht.generate.*;
 import org.jgrapht.graph.*;
 
 import junit.framework.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test class for the PadbergRaoOddMinimumCutset implementation
@@ -34,7 +39,6 @@ import junit.framework.*;
  * @author Joris Kinable
  */
 public class PadbergRaoOddMinimumCutsetTest
-    extends TestCase
 {
 
     private void runTest(
@@ -67,7 +71,7 @@ public class PadbergRaoOddMinimumCutsetTest
             .collect(Collectors.toSet());
         assertEquals(expectedCutEdges, cutEdges);
         double expectedWeight = cutEdges.stream().mapToDouble(network::getEdgeWeight).sum();
-        assertEquals(expectedWeight, cutValue);
+        assertEquals(expectedWeight, cutValue,0);
 
         // Verify whether the returned odd cut-set is indeed of minimum weight. To verify this, we
         // exhaustively iterate over all possible cutsets.
@@ -100,6 +104,7 @@ public class PadbergRaoOddMinimumCutsetTest
         assertTrue(foundBest);
     }
 
+    @Test
     public void testIsOddSetMethod()
     {
         Set<Integer> vertices = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6));
@@ -112,6 +117,7 @@ public class PadbergRaoOddMinimumCutsetTest
     /**
      * Test the example graph from the paper Odd Minimum Cut-Sets and b-Matchings by Padberg and Rao
      */
+    @Test
     public void testExampleGraph()
     {
         SimpleWeightedGraph<Integer, DefaultWeightedEdge> network =
@@ -138,6 +144,7 @@ public class PadbergRaoOddMinimumCutsetTest
     /**
      * Test disconnected graph
      */
+    @Test
     public void testDisconnectedGraph()
     {
         SimpleWeightedGraph<Integer, DefaultWeightedEdge> network =
@@ -155,6 +162,7 @@ public class PadbergRaoOddMinimumCutsetTest
     /**
      * Another graph to test
      */
+    @Test
     public void testGraph()
     {
         SimpleWeightedGraph<Integer, DefaultWeightedEdge> network =
@@ -181,6 +189,7 @@ public class PadbergRaoOddMinimumCutsetTest
     /**
      * Test random graphs
      */
+    @Test
     public void testRandomGraphs()
     {
         Random rand = new Random(0);

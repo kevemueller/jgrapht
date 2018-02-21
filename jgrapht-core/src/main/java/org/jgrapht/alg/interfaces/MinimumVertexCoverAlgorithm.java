@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Joris Kinable and Contributors.
+ * (C) Copyright 2016-2018, by Joris Kinable and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -51,7 +51,8 @@ public interface MinimumVertexCoverAlgorithm<V, E>
      *
      * @param <V> the vertex type
      */
-    interface VertexCover<V> extends Iterable<V>
+    interface VertexCover<V>
+        extends Iterable<V>
     {
 
         /**
@@ -72,10 +73,12 @@ public interface MinimumVertexCoverAlgorithm<V, E>
 
         /**
          * Returns an iterator over the vertices in the cover.
+         * 
          * @return iterator over the vertices in the cover.
          */
         @Override
-        default Iterator<V> iterator(){
+        default Iterator<V> iterator()
+        {
             return getVertices().iterator();
         }
     }

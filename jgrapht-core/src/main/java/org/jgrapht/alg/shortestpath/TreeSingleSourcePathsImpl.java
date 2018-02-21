@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2016-2017, by Dimitrios Michail and Contributors.
+ * (C) Copyright 2016-2018, by Dimitrios Michail and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -130,7 +130,7 @@ public class TreeSingleSourcePathsImpl<V, E>
 
         V cur = targetVertex;
         Pair<Double, E> p = map.get(cur);
-        if (p == null) {
+        if (p == null || p.getFirst().equals(Double.POSITIVE_INFINITY)) {
             return null;
         }
 

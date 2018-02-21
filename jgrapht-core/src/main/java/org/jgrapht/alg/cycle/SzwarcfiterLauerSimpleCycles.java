@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2013-2017, by Nikolay Ognyanov and Contributors.
+ * (C) Copyright 2013-2018, by Nikolay Ognyanov and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -20,7 +20,7 @@ package org.jgrapht.alg.cycle;
 import java.util.*;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.*;
+import org.jgrapht.alg.connectivity.KosarajuStrongConnectivityInspector;
 
 /**
  * Find all simple cycles of a directed graph using the Schwarcfiter and Lauer's algorithm.

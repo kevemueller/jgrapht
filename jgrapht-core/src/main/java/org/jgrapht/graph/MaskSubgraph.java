@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2007-2017, by France Telecom and Contributors.
+ * (C) Copyright 2007-2018, by France Telecom and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,7 +17,7 @@
  */
 package org.jgrapht.graph;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.function.*;
 
@@ -36,7 +36,8 @@ import org.jgrapht.*;
  * @since July 5, 2007
  */
 public class MaskSubgraph<V, E>
-    extends AbstractGraph<V, E> implements Serializable
+    extends AbstractGraph<V, E>
+    implements Serializable
 {
     private static final long serialVersionUID = -7397441126669119179L;
 

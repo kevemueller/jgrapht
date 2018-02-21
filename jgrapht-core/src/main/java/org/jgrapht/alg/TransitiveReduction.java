@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2017, by Christophe Thiebaud and Contributors.
+ * (C) Copyright 2015-2018, by Christophe Thiebaud and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -136,7 +136,7 @@ public class TransitiveReduction
     public <V, E> void reduce(final Graph<V, E> directedGraph)
     {
         GraphTests.requireDirected(directedGraph, "Graph must be directed");
-        
+
         final List<V> vertices = new ArrayList<>(directedGraph.vertexSet());
 
         final int n = vertices.size();

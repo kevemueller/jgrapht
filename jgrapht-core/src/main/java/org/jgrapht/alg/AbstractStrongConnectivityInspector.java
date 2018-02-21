@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2005-2017, by Christian Soltenborn and Contributors.
+ * (C) Copyright 2005-2018, by Christian Soltenborn and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,19 +17,11 @@
  */
 package org.jgrapht.alg;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
-import org.jgrapht.Graph;
-import org.jgrapht.alg.interfaces.StrongConnectivityAlgorithm;
-import org.jgrapht.graph.AsSubgraph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DirectedSubgraph;
-import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.*;
+import org.jgrapht.alg.interfaces.*;
+import org.jgrapht.graph.*;
 
 /**
  * Base implementation of the strongly connected components algorithm.
@@ -40,13 +32,15 @@ import org.jgrapht.graph.SimpleDirectedGraph;
  * @author Christian Soltenborn
  * @author Christian Hammer
  * @author Dimitrios Michail
+ * @deprecated Moved to package org.jgrapht.connectivity
  */
+@Deprecated
 abstract class AbstractStrongConnectivityInspector<V, E>
     implements StrongConnectivityAlgorithm<V, E>
 {
     protected final Graph<V, E> graph;
     protected List<Set<V>> stronglyConnectedSets;
-    protected List<DirectedSubgraph<V, E>> stronglyConnectedSubgraphs;
+    protected List<Graph<V, E>> stronglyConnectedSubgraphs;
 
     public AbstractStrongConnectivityInspector(Graph<V, E> graph)
     {
@@ -66,28 +60,17 @@ abstract class AbstractStrongConnectivityInspector<V, E>
     }
 
     @Override
-    @Deprecated
-    public List<DirectedSubgraph<V, E>> stronglyConnectedSubgraphs()
+    public List<Graph<V, E>> getStronglyConnectedComponents()
     {
         if (stronglyConnectedSubgraphs == null) {
             List<Set<V>> sets = stronglyConnectedSets();
             stronglyConnectedSubgraphs = new ArrayList<>(sets.size());
 
             for (Set<V> set : sets) {
-                stronglyConnectedSubgraphs.add(new DirectedSubgraph<>(graph, set, null));
+                stronglyConnectedSubgraphs.add(new AsSubgraph<V, E>(graph, set, null));
             }
         }
         return stronglyConnectedSubgraphs;
-    }
-
-    @Override
-    public List<Graph<V, E>> getStronglyConnectedComponents()
-    {
-        List<Graph<V, E>> result = new ArrayList<>();
-        for (DirectedSubgraph<V, E> dsg : stronglyConnectedSubgraphs()) {
-            result.add(dsg);
-        }
-        return result;
     }
 
     @Override

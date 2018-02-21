@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2005-2017, by Ewgenij Proschak and Contributors.
+ * (C) Copyright 2005-2018, by Ewgenij Proschak and Contributors.
  *
  * JGraphT : a free Java graph-theory library
  *
@@ -17,14 +17,10 @@
  */
 package org.jgrapht.alg.clique;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
 
-import org.jgrapht.Graph;
-import org.jgrapht.GraphTests;
+import org.jgrapht.*;
 
 /**
  * Bron-Kerbosch maximal clique enumeration algorithm.
